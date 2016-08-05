@@ -82,7 +82,10 @@ for (variableName, type) in hintsDictionary {
       line = "\(variableName): NSURL = NSURL(string: \"\(value)\")!"
       
     default:
-      fatalError("Unknown type: \(type)")
+      guard let stringValue = value as? String else {
+        fatalError("Value (\(value)) must be a string in order to be used by custom type \(type)")
+      }
+      line = "\(variableName): \(type) = \(stringValue)"
   }
   
   outputString.appendContentsOf("\n  static let " + line + "\n")
