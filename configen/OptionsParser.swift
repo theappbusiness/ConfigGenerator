@@ -34,6 +34,7 @@ class OptionsParser {
 
 
 extension OptionsParser {
+  
   func plistDictionary() -> Dictionary<String, AnyObject> {
     
     guard let data = NSData(contentsOfFile: inputPlistFilePath) else {

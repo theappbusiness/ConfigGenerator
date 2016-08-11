@@ -18,11 +18,12 @@ guard let parser = OptionsParser(arguments: Process.arguments) else {
   fatalError("usage: configen <inputPlistFilePath> <inputHintsFilePath> <outputClassName> <outputClassDirectory> [objc]")
 }
 
-let fileGenerator = FileGenerator()
+let fileGenerator = FileGenerator(optionsParser: parser)
 
 if parser.isObjC {
   let template = ObjectiveCTemplate(optionsParser: parser)
-  fileGenerator.generateHeaderFile(withTemplate: template, options: parser)
+  fileGenerator.generateHeaderFile(withTemplate: template)
+  fileGenerator.generateImplementationFile(withTemplate: template)
 }
 
 

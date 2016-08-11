@@ -9,33 +9,68 @@
 import Foundation
 
 protocol Template {
-  var token: String { get }
+  var variableNameToken: String { get }
   var customTypeToken: String { get }
+  var bodyToken: String { get }
+  var autoGenerationComment: String { get }
+  var foundationImport: String { get }
+}
+
+extension Template {
+  var variableNameToken: String { return "$VARIABLE_NAME_TOKEN" }
+  var customTypeToken: String { return "$CUSTOM_TYPE_TOKEN" }
+  var bodyToken: String { return "$BODY_TOKEN" }
+  var autoGenerationComment: String { return "" }
+  var foundationImport: String { return "" }
+}
+
+protocol HeaderTemplate: Template {
+
+  var outputClassHeaderName: String { get }
+  var headerBody: String { get }
+
   var doubleDeclaration: String { get }
   var integerDeclaration: String { get }
   var stringDeclaration: String { get }
   var booleanDeclaration: String { get }
   var urlDeclaration: String { get }
   var customDeclaration: String { get }
-  var foundationImport: String { get }
-  
-  var outputClassHeaderName: String { get }
-  var autoGenerationComment: String { get }
-  var headerBody: String { get }
 }
 
-struct ObjectiveCTemplate: Template {
+protocol ImplementationTemplate: Template {
+
+  var outputClassImplementationName: String { get }
+  var implementationBody: String { get }
+  var headerImportStatement: String { get }
+
+  var doubleImplementation: String { get }
+  var integerImplementation: String { get }
+  var stringImplementation: String { get }
+  var booleanImplementation: String { get }
+  var trueString: String { get }
+  var falseString: String { get }
+  var urlImplementation: String { get }
+  var customImplementation: String { get }
+}
+
+extension ImplementationTemplate {
+  var valueToken: String { return "$VALUE_TOKEN" }
+  var importStatement: String { return "" }
+}
+
+
+struct ObjectiveCTemplate: HeaderTemplate, ImplementationTemplate {
   
   let optionsParser: OptionsParser
   
-  let token = "$$"
-  let customTypeToken = "$$$"
-  var doubleDeclaration: String { return "+ (NSNumber *)\(token)" }
-  var integerDeclaration: String { return "+ (NSNumber *)\(token)" }
-  var stringDeclaration: String { return "+ (NSString *)\(token)" }
-  var booleanDeclaration: String { return "+ (BOOL *)\(token)" }
-  var urlDeclaration: String { return "+ (NSURL *)\(token)" }
-  var customDeclaration: String { return "+ (\(customTypeToken))\(token)" }
+  //MARK: - HeaderTemplate
+  
+  var doubleDeclaration: String { return "+ (NSNumber *)\(variableNameToken)" }
+  var integerDeclaration: String { return "+ (NSNumber *)\(variableNameToken)" }
+  var stringDeclaration: String { return "+ (NSString *)\(variableNameToken)" }
+  var booleanDeclaration: String { return "+ (BOOL)\(variableNameToken)" }
+  var urlDeclaration: String { return "+ (NSURL *)\(variableNameToken)" }
+  var customDeclaration: String { return "+ (\(customTypeToken))\(variableNameToken)" }
   var foundationImport: String { return "#import <Foundation/Foundation.h>\n\n" }
   
   var autoGenerationComment: String {
@@ -43,27 +78,54 @@ struct ObjectiveCTemplate: Template {
   }
   
   var headerBody: String {
-    return "@interface \(optionsParser.outputClassName) : NSObject \n\(token)\n@end\n"
+    return "@interface \(optionsParser.outputClassName) : NSObject \n\(bodyToken)\n@end\n"
   }
   
   var outputClassHeaderName: String {
     return "\(optionsParser.outputClassDirectory)/\(optionsParser.outputClassName).h"
   }
+  
+  //MARK: - ImplementationTemplate
+
+  var integerImplementation: String { return integerDeclaration + "\n{\n  return @\(valueToken);\n}" }
+  var doubleImplementation: String { return doubleDeclaration + "\n{\n  return @\(valueToken);\n}" }
+  var stringImplementation: String { return stringDeclaration + "\n{\n  return @\"\(valueToken)\";\n}" }
+  var booleanImplementation: String {
+    return booleanDeclaration + "\n{\n  return \(valueToken);\n}"
+  }
+  
+  var trueString: String { return "YES" }
+  var falseString: String { return "NO" }
+  
+  var urlImplementation: String { return urlDeclaration + "\n{\n  return [NSURL URLWithString:@\"\(valueToken)\"];\n}" }
+  var customImplementation: String { return customDeclaration + "\n{\n  return \(valueToken);\n}" }
+  
+  var outputClassImplementationName: String {
+    return "\(optionsParser.outputClassDirectory)/\(optionsParser.outputClassName).m"
+  }
+  
+  var implementationBody: String {
+    return "\n\n@implementation \(optionsParser.outputClassName) \n\(bodyToken)\n@end\n\n"
+  }
+  
+  var headerImportStatement: String { return "#import \"\(optionsParser.outputClassName).h\"" }
 }
 
 
 struct FileGenerator {
   
-  func generateHeaderFile(withTemplate template: Template, options: OptionsParser) {
+  let optionsParser: OptionsParser
+
+  func generateHeaderFile(withTemplate template: HeaderTemplate) {
     
     var headerBodyContent = ""
-    for (variableName, type) in options.hintsDictionary() {
+    for (variableName, type) in optionsParser.hintsDictionary() {
       let headerLine = methodDeclarationForVariableName(variableName, type: type, template: template)
       headerBodyContent.appendContentsOf("\n" + headerLine + ";" + "\n")
     }
     
     var headerBody = template.headerBody
-    headerBody.replace(template.token, withString: headerBodyContent)
+    headerBody.replace(template.bodyToken, withString: headerBodyContent)
     
     do {
       let headerOutputString = template.autoGenerationComment + template.foundationImport + headerBody
@@ -75,7 +137,29 @@ struct FileGenerator {
     
   }
   
-  func methodDeclarationForVariableName(variableName: String, type: String, template: Template) -> String {
+  
+  func generateImplementationFile(withTemplate template: ImplementationTemplate) {
+    var implementationBodyContent = ""
+    for (variableName, type) in optionsParser.hintsDictionary() {
+      let implementationLine = methodImplementationForVariableName(variableName, type: type, plistDictionary: optionsParser.plistDictionary(), template: template)
+      implementationBodyContent.appendContentsOf("\n" + implementationLine + "\n")
+    }
+    
+    var implementationBody = template.implementationBody
+    implementationBody.replace(template.bodyToken, withString: implementationBodyContent)
+    
+    do {
+      let implementationOutputString = template.autoGenerationComment + template.headerImportStatement + implementationBody
+      try implementationOutputString.writeToFile(template.outputClassImplementationName, atomically: true, encoding: NSUTF8StringEncoding)
+    }
+    catch {
+      fatalError("Failed to write to file at path \(template.outputClassImplementationName)")
+    }
+
+  }
+
+  
+  func methodDeclarationForVariableName(variableName: String, type: String, template: HeaderTemplate) -> String {
     var line = ""
     
     switch (type) {
@@ -98,7 +182,48 @@ struct FileGenerator {
       fatalError("Unknown type: \(type)")
     }
     
-    line.replace(template.token, withString: variableName)
+    line.replace(template.variableNameToken, withString: variableName)
+    
+    return line
+  }
+  
+  
+  func methodImplementationForVariableName(variableName: String, type: String, plistDictionary: [String:AnyObject], template: ImplementationTemplate) -> String {
+    
+    guard let value = plistDictionary[variableName] else {
+      fatalError("No configuration setting for variable name: \(variableName)")
+    }
+    
+    var line = ""
+    
+    switch (type) {
+    case ("Double"):
+      line += template.doubleImplementation
+      
+    case ("Int"):
+      line += template.integerImplementation
+      
+    case ("String"):
+      line += template.stringImplementation
+      
+    case ("Bool"):
+      let boolString = value as! Bool ? template.trueString : template.falseString
+      line += template.booleanImplementation
+      line.replace(template.valueToken, withString: boolString)
+      
+    case ("NSURL"):
+      let url = NSURL(string: "\(value)")!
+      guard url.host != nil else {
+        fatalError("Found URL without host: \(url) for setting: \(variableName)")
+      }
+      line += template.urlImplementation
+      
+    default:
+      fatalError("Unknown type: \(type)")
+    }
+    
+    line.replace(template.variableNameToken, withString: variableName)
+    line.replace(template.valueToken, withString: "\(value)")
     
     return line
   }
