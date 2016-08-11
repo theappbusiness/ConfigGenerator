@@ -118,7 +118,7 @@ struct SwiftTemplate: ImplementationTemplate {
   var trueString: String { return "true" }
   var falseString: String { return "false" }
   
-  var urlImplementation: String { return "  let \(variableNameToken): NSURL = NSURL(string: \"\(valueToken)\")" }
+  var urlImplementation: String { return "  let \(variableNameToken): NSURL = NSURL(string: \"\(valueToken)\")!" }
   var customImplementation: String { return "  let \(variableNameToken): \(customTypeToken) = \(valueToken)" }
 }
 
