@@ -15,7 +15,8 @@ searchURL : NSURL
 retryCount : Int
 adUnitPrefix : String
 pushKey : String
-analyticsKey: String
+analyticsKey : String
+environment : Environment
 ```
 
 Then you need to create a property list file, in which you provide values for each of the keys defined in your mapping file, above.
@@ -28,6 +29,45 @@ configen <plist> <mapping-file> <output-class-name> <output-directory>
 # e.g.
 
 configen EnvironmentConfig/EnvironmentConfig.plist EnvironmentConfig.map EnvironmentConfig EnvironmentConfig
+```
+
+# Standard types supported
+
+* `Int`: Expects integer type in plist
+* `String`: Expects string type in plist
+* `Bool`: Expects Boolean type in plist
+* `Double`: Expects floating point type in plist
+* `NSURL`: Expects a string in the plist, which can be converted to an NSURL (validated at compile time)
+
+# Custom types
+
+Any other type is supported, by providing a string in the plist which compiles successfully when converted to code. For example:
+
+```
+enum Environment {
+  case Development
+  case UAT
+  case Production
+}
+```
+
+Providing the mapping type `environment : Environment` in the mapping file, and the string `.Production` in the plist, the property in your configuration class will be as follows:
+
+```
+  static let environment: Environment = .Production
+```
+
+This is powerful, because it allows you to work with optionals, which are not supported by the standard types. For example:
+
+**Mapping file:**
+```
+retryCount : Int?
+```
+
+You have to make the type in your plist a string, and input either a number -- e.g. `1` -- or the word `nil`, so the output property becomes, for example:
+
+```
+  static let retryCount: Int? = nil
 ```
 
 # Supporting multiple environments
