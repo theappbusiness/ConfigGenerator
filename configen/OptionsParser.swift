@@ -10,7 +10,7 @@ import Foundation
 
 class OptionsParser {
 
-  var appName: String
+  let appName: String
   let inputPlistFilePath: String
   let inputHintsFilePath: String
   let outputClassName: String
@@ -22,23 +22,23 @@ class OptionsParser {
       return nil
     }
     
+    let isObjcValue = arguments.count == 6 && arguments.last == "objc"
+    if arguments.count == 6 {
+      guard isObjcValue else { return nil }
+    }
+    
     appName = (arguments.first! as NSString).lastPathComponent
     inputPlistFilePath = arguments[1]
     inputHintsFilePath = arguments[2]
     outputClassName = arguments[3]
     outputClassDirectory = arguments[4]
-    let runningObjC = arguments.count == 6 && arguments.last == "objc"
-    isObjC = runningObjC
+    isObjC = isObjcValue
   }
-}
-
-
-extension OptionsParser {
   
-  func plistDictionary() -> Dictionary<String, AnyObject> {
+  lazy var plistDictionary: Dictionary<String, AnyObject> = { [unowned self] in
     
-    guard let data = NSData(contentsOfFile: inputPlistFilePath) else {
-      fatalError("No data at path: \(inputPlistFilePath)")
+    guard let data = NSData(contentsOfFile: self.inputPlistFilePath) else {
+      fatalError("No data at path: \(self.inputPlistFilePath)")
     }
     
     guard let plistDictionary = (try? NSPropertyListSerialization.propertyListWithData(data, options: .Immutable, format: nil)) as? Dictionary<String, AnyObject> else {
@@ -46,11 +46,11 @@ extension OptionsParser {
     }
     
     return plistDictionary
-  }
+  }()
   
-  func hintsDictionary() -> Dictionary<String, String> {
-    guard let hintsString = try? NSString(contentsOfFile: inputHintsFilePath, encoding: NSUTF8StringEncoding) else {
-      fatalError("No data at path: \(inputHintsFilePath)")
+  lazy var hintsDictionary: Dictionary<String, String> = { [unowned self] in
+    guard let hintsString = try? NSString(contentsOfFile: self.inputHintsFilePath, encoding: NSUTF8StringEncoding) else {
+      fatalError("No data at path: \(self.inputHintsFilePath)")
     }
     
     var hintsDictionary = Dictionary<String, String>()
@@ -66,7 +66,6 @@ extension OptionsParser {
     }
     
     return hintsDictionary
-  }
-
+  }()
 }
 

@@ -15,7 +15,7 @@ struct FileGenerator {
   func generateHeaderFile(withTemplate template: HeaderTemplate) {
     
     var headerBodyContent = ""
-    for (variableName, type) in optionsParser.hintsDictionary() {
+    for (variableName, type) in optionsParser.hintsDictionary {
       let headerLine = methodDeclarationForVariableName(variableName, type: type, template: template)
       headerBodyContent.appendContentsOf("\n" + headerLine + ";" + "\n")
     }
@@ -36,8 +36,8 @@ struct FileGenerator {
   
   func generateImplementationFile(withTemplate template: ImplementationTemplate) {
     var implementationBodyContent = ""
-    for (variableName, type) in optionsParser.hintsDictionary() {
-      let implementationLine = methodImplementationForVariableName(variableName, type: type, plistDictionary: optionsParser.plistDictionary(), template: template)
+    for (variableName, type) in optionsParser.hintsDictionary {
+      let implementationLine = methodImplementationForVariableName(variableName, type: type, template: template)
       implementationBodyContent.appendContentsOf("\n" + implementationLine + "\n")
     }
     
@@ -85,9 +85,9 @@ struct FileGenerator {
   }
   
   
-  func methodImplementationForVariableName(variableName: String, type: String, plistDictionary: [String:AnyObject], template: ImplementationTemplate) -> String {
+  func methodImplementationForVariableName(variableName: String, type: String, template: ImplementationTemplate) -> String {
     
-    guard let value = plistDictionary[variableName] else {
+    guard let value = optionsParser.plistDictionary[variableName] else {
       fatalError("No configuration setting for variable name: \(variableName)")
     }
     
