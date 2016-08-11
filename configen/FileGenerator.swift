@@ -60,22 +60,23 @@ struct FileGenerator {
     
     switch (type) {
     case ("Double"):
-      line += template.doubleDeclaration
+      line = template.doubleDeclaration
       
     case ("Int"):
-      line += template.integerDeclaration
+      line = template.integerDeclaration
       
     case ("String"):
-      line += template.stringDeclaration
+      line = template.stringDeclaration
       
     case ("Bool"):
-      line += template.booleanDeclaration
+      line = template.booleanDeclaration
       
     case ("NSURL"):
-      line += template.urlDeclaration
+      line = template.urlDeclaration
       
     default:
-      fatalError("Unknown type: \(type)")
+      line = template.customDeclaration
+      line.replace(template.customTypeToken, withString: type)
     }
     
     line.replace(template.variableNameToken, withString: variableName)
@@ -94,17 +95,17 @@ struct FileGenerator {
     
     switch (type) {
     case ("Double"):
-      line += template.doubleImplementation
+      line = template.doubleImplementation
       
     case ("Int"):
-      line += template.integerImplementation
+      line = template.integerImplementation
       
     case ("String"):
-      line += template.stringImplementation
+      line = template.stringImplementation
       
     case ("Bool"):
       let boolString = value as! Bool ? template.trueString : template.falseString
-      line += template.booleanImplementation
+      line = template.booleanImplementation
       line.replace(template.valueToken, withString: boolString)
       
     case ("NSURL"):
@@ -112,10 +113,14 @@ struct FileGenerator {
       guard url.host != nil else {
         fatalError("Found URL without host: \(url) for setting: \(variableName)")
       }
-      line += template.urlImplementation
+      line = template.urlImplementation
       
     default:
-      fatalError("Unknown type: \(type)")
+      guard value is String else {
+        fatalError("Value (\(value)) must be a string in order to be used by custom type \(type)")
+      }
+      line = template.customImplementation
+      line.replace(template.customTypeToken, withString: type)
     }
     
     line.replace(template.variableNameToken, withString: variableName)
