@@ -3,7 +3,7 @@
 A command line tool to auto-generate configuration file code, for use in Xcode projects.
 
 The `configen` tool is used to auto-generate configuration code from a property list. It is intended to
-create the kind of configuration needed for external URLs or API keys used by your app.
+create the kind of configuration needed for external URLs or API keys used by your app. Currently supports both Swift and Objective-C code generation.
 
 # Usage
 
@@ -24,11 +24,23 @@ Then you need to create a property list file, in which you provide values for ea
 Finally, invoke the `configen` tool as follows:
 
 ```sh
-configen <plist> <mapping-file> <output-class-name> <output-directory> [objc]
+configen --plist-path <plist> --hints-path <mapping-file> --class-name <output-class-name> --output-directory <output-directory>
+
+  -p, --plist-path:
+      Path to the input plist file
+  -h, --hints-path:
+      Path to the input hints file
+  -n, --class-name:
+      The output config class name
+  -o, --output-directory:
+      The output config class directory
+  -c, --objective-c:
+      Whether to generate Objective-C files instead of Swift
 
 # e.g.
 
-configen EnvironmentConfig/EnvironmentConfig.plist EnvironmentConfig.map EnvironmentConfig EnvironmentConfig
+configen --plist-path EnvironmentConfig/EnvironmentConfig.plist --hints-path EnvironmentConfig.map --class-name EnvironmentConfig --output-directory EnvironmentConfig
+
 ```
 
 `configen` generates Swift files by default. However, you can generate Objective-C files by providing `objc` as the final argument.
@@ -77,7 +89,3 @@ You have to make the type in your plist a string, and input either a number -- e
 The best way to support multiple environments is to define a separate scheme for each one.
 Then create an external build step for each scheme. In the external build step, you run
 `configen` with different parameters depending on the environment being built.
-
-# To-do list
-
-* Change the way arguments are passed to the script on the command line. We should pass named parameters.
