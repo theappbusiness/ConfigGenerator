@@ -24,12 +24,14 @@ Then you need to create a property list file, in which you provide values for ea
 Finally, invoke the `configen` tool as follows:
 
 ```sh
-configen <plist> <mapping-file> <output-class-name> <output-directory>
+configen <plist> <mapping-file> <output-class-name> <output-directory> [objc]
 
 # e.g.
 
 configen EnvironmentConfig/EnvironmentConfig.plist EnvironmentConfig.map EnvironmentConfig EnvironmentConfig
 ```
+
+`configen` generates Swift files by default. However, you can generate Objective-C files by providing `objc` as the final argument.
 
 # Standard types supported
 
@@ -79,4 +81,3 @@ Then create an external build step for each scheme. In the external build step, 
 # To-do list
 
 * Change the way arguments are passed to the script on the command line. We should pass named parameters.
-* Support Objective-C code generation.
