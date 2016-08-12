@@ -8,10 +8,8 @@
 
 import Foundation
 
-guard let parser = OptionsParser(arguments: Process.arguments) else {
-  fatalError("usage: configen <inputPlistFilePath> <inputHintsFilePath> <outputClassName> <outputClassDirectory> [objc]")
-}
-
+let appName = (Process.arguments.first! as NSString).lastPathComponent
+let parser = OptionsParser(appName: appName)
 let fileGenerator = FileGenerator(optionsParser: parser)
 
 if parser.isObjC {

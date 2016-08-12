@@ -17,22 +17,28 @@ class OptionsParser {
   let outputClassDirectory: String
   let isObjC: Bool
   
-  init?(arguments: [String]) {
-    guard arguments.count == 5 || arguments.count == 6 else {
-      return nil
+  init(appName: String) {
+    let cli = CommandLine()
+    let inputPlistFilePath = StringOption(shortFlag: "p", longFlag: "plist-path", required: true, helpMessage: "Path to the input plist file")
+    let inputHintsFilePath = StringOption(shortFlag: "h", longFlag: "hints-path", required: true, helpMessage: "Path to the input hints file")
+    let outputClassName = StringOption(shortFlag: "n", longFlag: "class-name", required: true, helpMessage: "The output config class name")
+    let outputClassDirectory = StringOption(shortFlag: "o", longFlag: "output-directory", required: true, helpMessage: "The output config class directory")
+    let useObjc = BoolOption(shortFlag: "c", longFlag: "objective-c", helpMessage: "Whether to generate Objective-C files instead of Swift")
+    cli.addOptions(inputPlistFilePath, inputHintsFilePath, outputClassName, outputClassDirectory, useObjc)
+    
+    do {
+      try cli.parse()
+    } catch {
+      cli.printUsage(error)
+      fatalError()
     }
     
-    let isObjcValue = arguments.count == 6 && arguments.last == "objc"
-    if arguments.count == 6 {
-      guard isObjcValue else { return nil }
-    }
-    
-    appName = (arguments.first! as NSString).lastPathComponent
-    inputPlistFilePath = arguments[1]
-    inputHintsFilePath = arguments[2]
-    outputClassName = arguments[3]
-    outputClassDirectory = arguments[4]
-    isObjC = isObjcValue
+    self.appName = appName
+    self.inputPlistFilePath = inputPlistFilePath.value!
+    self.inputHintsFilePath = inputHintsFilePath.value!
+    self.outputClassName = outputClassName.value!
+    self.outputClassDirectory = outputClassDirectory.value!
+    self.isObjC = useObjc.value
   }
   
   lazy var plistDictionary: Dictionary<String, AnyObject> = { [unowned self] in
