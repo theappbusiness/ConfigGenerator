@@ -10,11 +10,11 @@ import Foundation
 
 extension String {
   var trimmed: String {
-    return (self as NSString).stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
+    return (self as String).trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
   }
 }
 
-let arguments = Process.arguments
+let arguments = CommandLine.arguments
 guard arguments.count == 5 else {
   fatalError("usage: \(arguments.first!) <inputPlistFilePath> <inputHintsFilePath> <outputClassName> <outputClassDirectory>")
 }
@@ -25,23 +25,24 @@ let outputClassName = arguments[3]
 let outputClassDirectory = arguments[4]
 let outputClassFileName = "\(outputClassDirectory)/\(outputClassName).swift"
 
-guard let data = NSData(contentsOfFile: inputPlistFilePath) else {
+guard let inputPlistFilePathURL = URL(string: "file://\(inputPlistFilePath)"),
+  let data = try? Data(contentsOf: inputPlistFilePathURL) else {
   fatalError("No data at path: \(inputPlistFilePath)")
 }
 
-guard let plistDictionary = (try? NSPropertyListSerialization.propertyListWithData(data, options: .Immutable, format: nil)) as? Dictionary<String, AnyObject> else {
+guard let plistDictionary = (try? PropertyListSerialization.propertyList(from: data, options: [], format: nil)) as? Dictionary<String, AnyObject> else {
   fatalError()
 }
 
-guard let hintsString = try? NSString(contentsOfFile: inputHintsFilePath, encoding: NSUTF8StringEncoding) else {
+guard let hintsString = try? String(contentsOfFile: inputHintsFilePath, encoding: String.Encoding.utf8) else {
   fatalError("No data at path: \(inputHintsFilePath)")
 }
 
 var hintsDictionary = Dictionary<String, String>()
 
-let hintLines = hintsString.componentsSeparatedByCharactersInSet(NSCharacterSet.newlineCharacterSet())
+let hintLines = hintsString.components(separatedBy: CharacterSet.newlines)
 for hintLine in hintLines where hintLine.trimmed.characters.count > 0 {
-  let hints = hintLine.componentsSeparatedByCharactersInSet(NSCharacterSet(charactersInString: ":")).map { $0.trimmed }
+  let hints = hintLine.components(separatedBy: CharacterSet(charactersIn: ":")).map { $0.trimmed }
   guard hints.count == 2 else {
     fatalError("Expected \"variableName : Type\", instead of \"\(hintLine)\"")
   }
@@ -73,13 +74,13 @@ for (variableName, type) in hintsDictionary {
       let boolString = value as! Bool ? "true" : "false"
       line = "\(variableName): Bool = \(boolString)"
       
-    case ("NSURL"):
+    case ("URL"):
       requiresFoundation = true
-      let url = NSURL(string: value as! String)!
+      let url = URL(string: value as! String)!
       guard url.host != nil else {
         fatalError("Found URL without host: \(url) for setting: \(variableName)")
       }
-      line = "\(variableName): NSURL = NSURL(string: \"\(value)\")!"
+      line = "\(variableName): URL = URL(string: \"\(value)\")!"
       
     default:
       guard let stringValue = value as? String else {
@@ -88,7 +89,7 @@ for (variableName, type) in hintsDictionary {
       line = "\(variableName): \(type) = \(stringValue)"
   }
   
-  outputString.appendContentsOf("\n  static let " + line + "\n")
+  outputString.append("\n  static let " + line + "\n")
 }
 
 let appName = (arguments.first! as NSString).lastPathComponent
@@ -97,7 +98,7 @@ let foundationImport = requiresFoundation ? "import Foundation\n\n" : ""
 outputString = "\(headerComment)\(foundationImport)class \(outputClassName) {\n\(outputString)\n}\n"
 
 do {
-  try outputString.writeToFile(outputClassFileName, atomically: true, encoding: NSUTF8StringEncoding)
+  try outputString.write(toFile: outputClassFileName, atomically: true, encoding: String.Encoding.utf8)
 }
 catch {
   fatalError("Failed to write to file at path \(outputClassFileName)")
