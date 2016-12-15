@@ -18,14 +18,14 @@ class OptionsParser {
   let isObjC: Bool
   
   init(appName: String) {
-    let cli = CommandLine()
+    let cli = CommandLineKit()
     let inputPlistFilePath = StringOption(shortFlag: "p", longFlag: "plist-path", required: true, helpMessage: "Path to the input plist file")
     let inputHintsFilePath = StringOption(shortFlag: "h", longFlag: "hints-path", required: true, helpMessage: "Path to the input hints file")
     let outputClassName = StringOption(shortFlag: "n", longFlag: "class-name", required: true, helpMessage: "The output config class name")
     let outputClassDirectory = StringOption(shortFlag: "o", longFlag: "output-directory", required: true, helpMessage: "The output config class directory")
     let useObjc = BoolOption(shortFlag: "c", longFlag: "objective-c", helpMessage: "Whether to generate Objective-C files instead of Swift")
     cli.addOptions(inputPlistFilePath, inputHintsFilePath, outputClassName, outputClassDirectory, useObjc)
-    
+
     do {
       try cli.parse()
     } catch {
@@ -43,11 +43,12 @@ class OptionsParser {
   
   lazy var plistDictionary: Dictionary<String, AnyObject> = { [unowned self] in
     
-    guard let data = NSData(contentsOfFile: self.inputPlistFilePath) else {
-      fatalError("No data at path: \(self.inputPlistFilePath)")
+    guard let inputPlistFilePathURL = URL(string: "file://\(self.inputPlistFilePath)"),
+      let data = try? Data(contentsOf: inputPlistFilePathURL) else {
+        fatalError("No data at path: \(self.inputPlistFilePath)")
     }
     
-    guard let plistDictionary = (try? NSPropertyListSerialization.propertyListWithData(data, options: .Immutable, format: nil)) as? Dictionary<String, AnyObject> else {
+    guard let plistDictionary = (try? PropertyListSerialization.propertyList(from: data, options: [], format: nil)) as? Dictionary<String, AnyObject> else {
       fatalError("Failed to create plist")
     }
     
@@ -55,15 +56,15 @@ class OptionsParser {
   }()
   
   lazy var hintsDictionary: Dictionary<String, String> = { [unowned self] in
-    guard let hintsString = try? NSString(contentsOfFile: self.inputHintsFilePath, encoding: NSUTF8StringEncoding) else {
+    guard let hintsString = try? String(contentsOfFile: self.inputHintsFilePath, encoding: String.Encoding.utf8) else {
       fatalError("No data at path: \(self.inputHintsFilePath)")
     }
     
     var hintsDictionary = Dictionary<String, String>()
     
-    let hintLines = hintsString.componentsSeparatedByCharactersInSet(NSCharacterSet.newlineCharacterSet())
+    let hintLines = hintsString.components(separatedBy: CharacterSet.newlines)
     for hintLine in hintLines where hintLine.trimmed.characters.count > 0 {
-      let hints = hintLine.componentsSeparatedByCharactersInSet(NSCharacterSet(charactersInString: ":")).map { $0.trimmed }
+      let hints = hintLine.components(separatedBy: CharacterSet(charactersIn: ":")).map { $0.trimmed }
       guard hints.count == 2 else {
         fatalError("Expected \"variableName : Type\", instead of \"\(hintLine)\"")
       }

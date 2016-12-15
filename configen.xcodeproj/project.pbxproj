@@ -7,12 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		2E295A281D5E11800033B07A /* CommandLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E295A241D5E11800033B07A /* CommandLine.swift */; };
-		2E295A291D5E11800033B07A /* Option.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E295A261D5E11800033B07A /* Option.swift */; };
-		2E295A2A1D5E11800033B07A /* StringExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E295A271D5E11800033B07A /* StringExtensions.swift */; };
 		2E378F961D5B811C00E9F524 /* OptionsParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E378F951D5B811C00E9F524 /* OptionsParser.swift */; };
 		2E4A8F311D5C77AB0025C677 /* FileTemplates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E4A8F301D5C77AB0025C677 /* FileTemplates.swift */; };
 		2E4A8F331D5CB7D60025C677 /* FileGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E4A8F321D5CB7D60025C677 /* FileGenerator.swift */; };
+		91ED18E61E02A48F00475042 /* CommandLineKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91084DEB1E02A0A9004E353B /* CommandLineKit.swift */; };
+		91ED18E71E02A49200475042 /* Option.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91084DED1E02A0A9004E353B /* Option.swift */; };
+		91ED18E81E02A49500475042 /* StringExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91084DEE1E02A0A9004E353B /* StringExtensions.swift */; };
 		EAD7A2A21BBABE83006A3921 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAD7A2A11BBABE83006A3921 /* main.swift */; };
 /* End PBXBuildFile section */
 
@@ -29,13 +29,13 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		2E295A241D5E11800033B07A /* CommandLine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommandLine.swift; sourceTree = "<group>"; };
-		2E295A251D5E11800033B07A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		2E295A261D5E11800033B07A /* Option.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Option.swift; sourceTree = "<group>"; };
-		2E295A271D5E11800033B07A /* StringExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringExtensions.swift; sourceTree = "<group>"; };
 		2E378F951D5B811C00E9F524 /* OptionsParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OptionsParser.swift; sourceTree = "<group>"; };
 		2E4A8F301D5C77AB0025C677 /* FileTemplates.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileTemplates.swift; sourceTree = "<group>"; };
 		2E4A8F321D5CB7D60025C677 /* FileGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileGenerator.swift; sourceTree = "<group>"; };
+		91084DEB1E02A0A9004E353B /* CommandLineKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandLineKit.swift; sourceTree = "<group>"; };
+		91084DEC1E02A0A9004E353B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		91084DED1E02A0A9004E353B /* Option.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Option.swift; sourceTree = "<group>"; };
+		91084DEE1E02A0A9004E353B /* StringExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtensions.swift; sourceTree = "<group>"; };
 		EAD7A29E1BBABE83006A3921 /* configen */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = configen; sourceTree = BUILT_PRODUCTS_DIR; };
 		EAD7A2A11BBABE83006A3921 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -51,15 +51,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		2E295A231D5E11800033B07A /* CommandLine */ = {
+		91084DEA1E02A0A9004E353B /* CommandLineKit */ = {
 			isa = PBXGroup;
 			children = (
-				2E295A241D5E11800033B07A /* CommandLine.swift */,
-				2E295A251D5E11800033B07A /* Info.plist */,
-				2E295A261D5E11800033B07A /* Option.swift */,
-				2E295A271D5E11800033B07A /* StringExtensions.swift */,
+				91084DEB1E02A0A9004E353B /* CommandLineKit.swift */,
+				91084DEC1E02A0A9004E353B /* Info.plist */,
+				91084DED1E02A0A9004E353B /* Option.swift */,
+				91084DEE1E02A0A9004E353B /* StringExtensions.swift */,
 			);
-			path = CommandLine;
+			path = CommandLineKit;
 			sourceTree = "<group>";
 		};
 		EAD7A2951BBABE83006A3921 = {
@@ -81,7 +81,7 @@
 		EAD7A2A01BBABE83006A3921 /* configen */ = {
 			isa = PBXGroup;
 			children = (
-				2E295A231D5E11800033B07A /* CommandLine */,
+				91084DEA1E02A0A9004E353B /* CommandLineKit */,
 				EAD7A2A11BBABE83006A3921 /* main.swift */,
 				2E378F951D5B811C00E9F524 /* OptionsParser.swift */,
 				2E4A8F301D5C77AB0025C677 /* FileTemplates.swift */,
@@ -147,12 +147,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2E295A281D5E11800033B07A /* CommandLine.swift in Sources */,
+				91ED18E81E02A49500475042 /* StringExtensions.swift in Sources */,
+				91ED18E71E02A49200475042 /* Option.swift in Sources */,
+				91ED18E61E02A48F00475042 /* CommandLineKit.swift in Sources */,
 				EAD7A2A21BBABE83006A3921 /* main.swift in Sources */,
 				2E4A8F331D5CB7D60025C677 /* FileGenerator.swift in Sources */,
-				2E295A2A1D5E11800033B07A /* StringExtensions.swift in Sources */,
 				2E378F961D5B811C00E9F524 /* OptionsParser.swift in Sources */,
-				2E295A291D5E11800033B07A /* Option.swift in Sources */,
 				2E4A8F311D5C77AB0025C677 /* FileTemplates.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -200,6 +200,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -235,6 +236,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = macosx;
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};
