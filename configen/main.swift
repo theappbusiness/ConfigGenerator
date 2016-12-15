@@ -8,7 +8,7 @@
 
 import Foundation
 
-let appName = (Process.arguments.first! as NSString).lastPathComponent
+let appName = (CommandLine.arguments.first! as NSString).lastPathComponent
 let parser = OptionsParser(appName: appName)
 let fileGenerator = FileGenerator(optionsParser: parser)
 
