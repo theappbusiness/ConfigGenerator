@@ -19,17 +19,40 @@ Before running the `configen` tool, you need to create a mapping file, in which 
 
 ```swift
 entryPointURL : URL
-searchURL : URL
+enableFileSharing : Bool
 retryCount : Int
 adUnitPrefix : String
-pushKey : String
 analyticsKey : String
 environment : Environment
 ```
 
-Then you need to create a property list file, in which you provide values for each of the keys defined in your mapping file, above.
+(NB: When configuring `configen` for Objective C projects the `NSURL` object must be used)
 
-Finally, invoke the `configen` tool as follows:
+Then you need to create a property list file, in which you provide values for each of the keys defined in your mapping file, above. You need to create a property list file for each required environment. For example, you may have a `test` and a `production` environment.
+
+Using the above example, the property list source code for a production environment may look as follows: 
+
+```<plist version="1.0">
+<dict>
+<key>entryPointURL</key>
+<string>http://example.com/production</string>
+<key>enableFileSharing</key>
+<true/>
+<key>retryCount</key>
+<integer>4</integer>
+<key>adUnitPrefix</key>
+<string>production_ad_unit</string>
+<key>analyticsKey</key>
+<string>haf6d9fha8v56abs</string>
+<key>environment</key>
+<string>.Production</string>
+</dict>
+</plist>
+```
+
+Finally, you need to create a build target for each of your enviroments. This can be done be selecting File -> New -> Target and selecting 'External Build System' from the 'Cross-Platform' tab.
+
+In the settings of each build target point the 'Build Tool' to the location of the `configen` script that you copied to your directory earlier and invoke the arguments as follows. Note that the output directory must be created seperatly.
 
 ```sh
 configen --plist-path <plist> --hints-path <mapping-file> --class-name <output-class-name> --output-directory <output-directory>
@@ -47,11 +70,15 @@ configen --plist-path <plist> --hints-path <mapping-file> --class-name <output-c
 
 # e.g.
 
-configen --plist-path EnvironmentConfig/EnvironmentConfig.plist --hints-path EnvironmentConfig.map --class-name EnvironmentConfig --output-directory EnvironmentConfig
+configen --plist-path EnvironmentConfig/EnvironmentConfig_Prod.plist --hints-path EnvironmentConfig.map --class-name EnvironmentConfig --output-directory EnvironmentConfig
 
 ```
 
 `configen` generates Swift files by default. However, you can generate Objective-C files by providing `objc` as the final argument.
+
+The best way to support multiple environments is to define a separate scheme for each one. Then add the relevant target as an external build step for each scheme ensuring that 'Parallelize Build' is disabled.
+
+Please refer to the example project included in the repository for further guidance. 
 
 # Standard types supported
 
@@ -59,7 +86,8 @@ configen --plist-path EnvironmentConfig/EnvironmentConfig.plist --hints-path Env
 * `String`: Expects string type in plist
 * `Bool`: Expects Boolean type in plist
 * `Double`: Expects floating point type in plist
-* `NSURL`: Expects a string in the plist, which can be converted to an NSURL (validated at compile time)
+* `URL`: Expects a string in the plist, which can be converted to a URL (validated at compile time) 
+(NB: Use `NSURL` for Objective C projects)
 
 # Custom types
 
@@ -91,9 +119,3 @@ You have to make the type in your plist a string, and input either a number -- e
 ```
   static let retryCount: Int? = nil
 ```
-
-# Supporting multiple environments
-
-The best way to support multiple environments is to define a separate scheme for each one.
-Then create an external build step for each scheme. In the external build step, you run
-`configen` with different parameters depending on the environment being built.
