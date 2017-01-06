@@ -105,7 +105,7 @@ enum Environment {
 Providing the mapping type `environment : Environment` in the mapping file, and the string `.Production` in the plist, the property in your configuration class will be as follows:
 
 ```
-  static let environment: Environment = .Production
+  let environment: Environment = .Production
 ```
 
 This is powerful, because it allows you to work with optionals, which are not supported by the standard types. For example:
@@ -118,5 +118,5 @@ retryCount : Int?
 You have to make the type in your plist a string, and input either a number -- e.g. `1` -- or the word `nil`, so the output property becomes, for example:
 
 ```
-  static let retryCount: Int? = nil
+  let retryCount: Int? = nil
 ```
