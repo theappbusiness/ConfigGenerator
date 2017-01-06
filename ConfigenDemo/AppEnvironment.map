@@ -1,0 +1,4 @@
+myConfigUrl : URL
+myConfigBool : Bool
+myConfigString : String
+myConfigInt : Int

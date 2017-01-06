@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>myConfigUrl</key>
+	<string>http://example.com/production</string>
+	<key>myConfigBool</key>
+	<false/>
+	<key>myConfigString</key>
+	<string>Hello! From TAB prod file</string>
+	<key>myConfigInt</key>
+	<integer>10</integer>
+</dict>
+</plist>
