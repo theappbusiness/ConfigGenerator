@@ -5,13 +5,21 @@ A command line tool to auto-generate configuration file code, for use in Xcode p
 The `configen` tool is used to auto-generate configuration code from a property list. It is intended to
 create the kind of configuration needed for external URLs or API keys used by your app. Currently supports both Swift and Objective-C code generation.
 
+# Installation
+
+To add the `configen` tool to your Xcode project you need to download or clone this repository and copy the product from the `configen.xcodeproj` project to the root directory of your project. 
+
+The easiest way to do this is to right click on the `configen` product and select ‘Show in Finder’. This file can then be copied to your directory.
+
+Once you have copied the tool to your directory you are ready to go! Now you need to create the relevant files and set-up your project accordingly. This is outlined below.
+
 # Usage
 
 Before running the `configen` tool, you need to create a mapping file, in which you define the configuration variables you support. For example:
 
 ```swift
-entryPointURL : NSURL
-searchURL : NSURL
+entryPointURL : URL
+searchURL : URL
 retryCount : Int
 adUnitPrefix : String
 pushKey : String
