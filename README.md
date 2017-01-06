@@ -32,7 +32,8 @@ Then you need to create a property list file, in which you provide values for ea
 
 Using the above example, the property list source code for a production environment may look as follows: 
 
-```<plist version="1.0">
+```
+<plist version="1.0">
 <dict>
 <key>entryPointURL</key>
 <string>http://example.com/production</string>
