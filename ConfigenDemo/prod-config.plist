@@ -2,13 +2,17 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>myConfigUrl</key>
+	<key>entryPointURL</key>
 	<string>http://example.com/production</string>
-	<key>myConfigBool</key>
-	<false/>
-	<key>myConfigString</key>
-	<string>Hello! From TAB prod file</string>
-	<key>myConfigInt</key>
-	<integer>10</integer>
+	<key>enableFileSharing</key>
+	<true/>
+	<key>retryCount</key>
+	<integer>4</integer>
+	<key>adUnitPrefix</key>
+	<string>production_ad_unit</string>
+	<key>analyticsKey</key>
+	<string>haf6d9fha8v56abs</string>
+	<key>environment</key>
+	<string>.Production</string>
 </dict>
 </plist>

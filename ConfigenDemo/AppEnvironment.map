@@ -1,4 +1,6 @@
-myConfigUrl : URL
-myConfigBool : Bool
-myConfigString : String
-myConfigInt : Int
+entryPointURL : URL
+enableFileSharing : Bool
+retryCount : Int
+adUnitPrefix : String
+analyticsKey : String
+environment : Environment
