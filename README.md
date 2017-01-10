@@ -1,6 +1,6 @@
 # configen
 
-A command line tool to auto-generate configuration file code, for use in Xcode projects.
+A command line tool to auto-generate configuration file code, for use in Xcode projects. To read about the motivation behind this project and the scenarios in which it might be used see our [blog post](http://www.theappbusiness.com/blog/a-robust-multi-environment-build-setup). 
 
 The `configen` tool is used to auto-generate configuration code from a property list. It is intended to
 create the kind of configuration needed for external URLs or API keys used by your app. Currently supports both Swift and Objective-C code generation.
@@ -28,7 +28,7 @@ analyticsKey : String
 environment : Environment
 ```
 
-(NB: When configuring `configen` for Objective C projects the `NSURL` object must be used)
+The `configen` mapping file uses a custom set of types which map to Swift types. Therefore for Objective-C code generation, you must still use Swift equivalent types in the mapping file.
 
 ## Step 2: A plist for each environment
 
@@ -94,7 +94,6 @@ Please refer to the example project included in the repository for further guida
 * `Bool`: Expects Boolean type in plist
 * `Double`: Expects floating point type in plist
 * `URL`: Expects a string in the plist, which can be converted to a URL (validated at compile time) 
-(NB: Use `NSURL` for Objective C projects)
 
 # Custom types
 
