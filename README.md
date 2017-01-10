@@ -7,13 +7,15 @@ create the kind of configuration needed for external URLs or API keys used by yo
 
 # Installation
 
-To add the `configen` tool to your Xcode project you need to download or clone this repository and copy the product from the `configen.xcodeproj` project to the root directory of your project. 
+To add the `configen` tool to your Xcode project you need to download or clone this repository. Open and build the `configen.xcodeproj` project in Xcode and copy the product to the root directory of your project. 
 
 The easiest way to do this is to right click on the `configen` product and select ‘Show in Finder’. This file can then be copied to your directory.
 
 Once you have copied the tool to your directory you are ready to go! Now you need to create the relevant files and set-up your project accordingly. This is outlined below.
 
 # Usage
+
+## Step 1: The mapping file
 
 Before running the `configen` tool, you need to create a mapping file, in which you define the configuration variables you support. For example:
 
@@ -27,6 +29,8 @@ environment : Environment
 ```
 
 (NB: When configuring `configen` for Objective C projects the `NSURL` object must be used)
+
+## Step 2: A plist for each environment
 
 Then you need to create a property list file, in which you provide values for each of the keys defined in your mapping file, above. You need to create a property list file for each required environment. For example, you may have a `test` and a `production` environment.
 
@@ -51,9 +55,11 @@ Using the above example, the property list source code for a production environm
 </plist>
 ```
 
+## Step 3: An external build step for each environment
+
 Finally, you need to create a build target for each of your enviroments. This can be done be selecting File -> New -> Target and selecting 'External Build System' from the 'Cross-Platform' tab.
 
-In the settings of each build target point the 'Build Tool' to the location of the `configen` script that you copied to your directory earlier and invoke the arguments as follows. Note that the output directory must be created seperatly.
+In the settings of each build target point the 'Build Tool' to the location of the `configen` script that you copied to your directory earlier and invoke the arguments as follows. Note that the output directory must be created separately.
 
 ```sh
 configen --plist-path <plist> --hints-path <mapping-file> --class-name <output-class-name> --output-directory <output-directory>
@@ -75,7 +81,7 @@ configen --plist-path EnvironmentConfig/EnvironmentConfig_Prod.plist --hints-pat
 
 ```
 
-`configen` generates Swift files by default. However, you can generate Objective-C files by providing `objc` as the final argument.
+`configen` generates Swift code by default. You can generate Objective-C code by providing the `-c` or `--objective-c` switches
 
 The best way to support multiple environments is to define a separate scheme for each one. Then add the relevant target as an external build step for each scheme ensuring that 'Parallelize Build' is disabled.
 
@@ -105,7 +111,7 @@ enum Environment {
 Providing the mapping type `environment : Environment` in the mapping file, and the string `.Production` in the plist, the property in your configuration class will be as follows:
 
 ```
-  let environment: Environment = .Production
+  static let environment: Environment = .Production
 ```
 
 This is powerful, because it allows you to work with optionals, which are not supported by the standard types. For example:
