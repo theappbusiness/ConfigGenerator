@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>entryPointURL</key>
+	<string>http://example.com/test</string>
+	<key>enableFileSharing</key>
+	<false/>
+	<key>retryCount</key>
+	<integer>10</integer>
+	<key>adUnitPrefix</key>
+	<string>test_ad_unit</string>
+	<key>analyticsKey</key>
+	<string>tay663jsba9dn6d</string>
+	<key>environment</key>
+	<string>.Test</string>
+</dict>
+</plist>
