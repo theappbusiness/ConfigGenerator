@@ -1,27 +1,65 @@
 # configen
 
-A command line tool to auto-generate configuration file code, for use in Xcode projects.
+A command line tool to auto-generate configuration file code, for use in Xcode projects. To read about the motivation behind this project and the scenarios in which it might be used see our [blog post](http://www.theappbusiness.com/blog/a-robust-multi-environment-build-setup). 
 
 The `configen` tool is used to auto-generate configuration code from a property list. It is intended to
 create the kind of configuration needed for external URLs or API keys used by your app. Currently supports both Swift and Objective-C code generation.
 
+# Installation
+
+To add the `configen` tool to your Xcode project you need to download or clone this repository. Open and build the `configen.xcodeproj` project in Xcode and copy the product to the root directory of your project. 
+
+The easiest way to do this is to right click on the `configen` product and select ‘Show in Finder’. This file can then be copied to your directory.
+
+Once you have copied the tool to your directory you are ready to go! Now you need to create the relevant files and set-up your project accordingly. This is outlined below.
+
 # Usage
+
+## Step 1: The mapping file
 
 Before running the `configen` tool, you need to create a mapping file, in which you define the configuration variables you support. For example:
 
 ```swift
-entryPointURL : NSURL
-searchURL : NSURL
+entryPointURL : URL
+enableFileSharing : Bool
 retryCount : Int
 adUnitPrefix : String
-pushKey : String
 analyticsKey : String
 environment : Environment
 ```
 
-Then you need to create a property list file, in which you provide values for each of the keys defined in your mapping file, above.
+The `configen` mapping file uses a custom set of types which map to Swift types. Therefore for Objective-C code generation, you must still use Swift equivalent types in the mapping file.
 
-Finally, invoke the `configen` tool as follows:
+## Step 2: A plist for each environment
+
+Then you need to create a property list file, in which you provide values for each of the keys defined in your mapping file, above. You need to create a property list file for each required environment. For example, you may have a `test` and a `production` environment.
+
+Using the above example, the property list source code for a production environment may look as follows: 
+
+```
+<plist version="1.0">
+<dict>
+<key>entryPointURL</key>
+<string>http://example.com/production</string>
+<key>enableFileSharing</key>
+<true/>
+<key>retryCount</key>
+<integer>4</integer>
+<key>adUnitPrefix</key>
+<string>production_ad_unit</string>
+<key>analyticsKey</key>
+<string>haf6d9fha8v56abs</string>
+<key>environment</key>
+<string>.Production</string>
+</dict>
+</plist>
+```
+
+## Step 3: An external build step for each environment
+
+Finally, you need to create a build target for each of your enviroments. This can be done be selecting File -> New -> Target and selecting 'External Build System' from the 'Cross-Platform' tab.
+
+In the settings of each build target point the 'Build Tool' to the location of the `configen` script that you copied to your directory earlier and invoke the arguments as follows. Note that the output directory must be created separately.
 
 ```sh
 configen --plist-path <plist> --hints-path <mapping-file> --class-name <output-class-name> --output-directory <output-directory>
@@ -39,11 +77,15 @@ configen --plist-path <plist> --hints-path <mapping-file> --class-name <output-c
 
 # e.g.
 
-configen --plist-path EnvironmentConfig/EnvironmentConfig.plist --hints-path EnvironmentConfig.map --class-name EnvironmentConfig --output-directory EnvironmentConfig
+configen --plist-path EnvironmentConfig/EnvironmentConfig_Prod.plist --hints-path EnvironmentConfig.map --class-name EnvironmentConfig --output-directory EnvironmentConfig
 
 ```
 
-`configen` generates Swift files by default. However, you can generate Objective-C files by providing `objc` as the final argument.
+`configen` generates Swift code by default. You can generate Objective-C code by providing the `-c` or `--objective-c` switches
+
+The best way to support multiple environments is to define a separate scheme for each one. Then add the relevant target as an external build step for each scheme ensuring that 'Parallelize Build' is disabled.
+
+Please refer to the example project included in the repository for further guidance. 
 
 # Standard types supported
 
@@ -51,7 +93,7 @@ configen --plist-path EnvironmentConfig/EnvironmentConfig.plist --hints-path Env
 * `String`: Expects string type in plist
 * `Bool`: Expects Boolean type in plist
 * `Double`: Expects floating point type in plist
-* `NSURL`: Expects a string in the plist, which can be converted to an NSURL (validated at compile time)
+* `URL`: Expects a string in the plist, which can be converted to a URL (validated at compile time) 
 
 # Custom types
 
@@ -81,11 +123,5 @@ retryCount : Int?
 You have to make the type in your plist a string, and input either a number -- e.g. `1` -- or the word `nil`, so the output property becomes, for example:
 
 ```
-  static let retryCount: Int? = nil
+  let retryCount: Int? = nil
 ```
-
-# Supporting multiple environments
-
-The best way to support multiple environments is to define a separate scheme for each one.
-Then create an external build step for each scheme. In the external build step, you run
-`configen` with different parameters depending on the environment being built.
