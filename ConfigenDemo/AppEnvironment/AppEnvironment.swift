@@ -6,17 +6,17 @@ import Foundation
 
 class AppEnvironment {
 
-  let entryPointURL: URL = URL(string: "http://example.com/production")!
+  static let entryPointURL: URL = URL(string: "http://example.com/production")!
 
-  let enableFileSharing: Bool = true
+  static let enableFileSharing: Bool = true
 
-  let analyticsKey: String = "haf6d9fha8v56abs"
+  static let analyticsKey: String = "haf6d9fha8v56abs"
 
-  let environment: Environment = .Production
+  static let environment: Environment = .Production
 
-  let adUnitPrefix: String = "production_ad_unit"
+  static let adUnitPrefix: String = "production_ad_unit"
 
-  let retryCount: Int = 4
+  static let retryCount: Int = 4
 
 }
 
