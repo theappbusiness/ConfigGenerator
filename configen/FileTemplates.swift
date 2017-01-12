@@ -105,16 +105,16 @@ struct SwiftTemplate: ImplementationTemplate {
   
   var implementationBody: String { return "\n\nclass \(optionsParser.outputClassName) {\n\(bodyToken)\n}\n\n" }
 
-  var integerImplementation: String { return "  let \(variableNameToken): Int = \(valueToken)" }
-  var doubleImplementation: String { return "  let \(variableNameToken): Double = \(valueToken)" }
-  var stringImplementation: String { return "  let \(variableNameToken): String = \"\(valueToken)\"" }
-  var booleanImplementation: String { return "  let \(variableNameToken): Bool = \(valueToken)" }
+  var integerImplementation: String { return "  static let \(variableNameToken): Int = \(valueToken)" }
+  var doubleImplementation: String { return "  static let \(variableNameToken): Double = \(valueToken)" }
+  var stringImplementation: String { return "  static let \(variableNameToken): String = \"\(valueToken)\"" }
+  var booleanImplementation: String { return "  static let \(variableNameToken): Bool = \(valueToken)" }
   
   var trueString: String { return "true" }
   var falseString: String { return "false" }
   
-  var urlImplementation: String { return "  let \(variableNameToken): URL = URL(string: \"\(valueToken)\")!" }
-  var customImplementation: String { return "  let \(variableNameToken): \(customTypeToken) = \(valueToken)" }
+  var urlImplementation: String { return "  static let \(variableNameToken): URL = URL(string: \"\(valueToken)\")!" }
+  var customImplementation: String { return "  static let \(variableNameToken): \(customTypeToken) = \(valueToken)" }
 }
 
 
