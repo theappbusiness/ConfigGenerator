@@ -53,6 +53,7 @@ protocol ImplementationTemplate: Template {
 
 extension ImplementationTemplate {
   var valueToken: String { return "$VALUE_TOKEN" }
+  var declarationToken: String { return "$DECLARATION_TOKEN" }
 }
 
 
@@ -90,6 +91,7 @@ struct ObjectiveCTemplate: HeaderTemplate, ImplementationTemplate {
   var falseString: String { return "NO" }
   var urlImplementation: String { return urlDeclaration + "\n{\n  return [NSURL URLWithString:@\"\(valueToken)\"];\n}" }
   var customImplementation: String { return customDeclaration + "\n{\n  return \(valueToken);\n}" }
+  var optionalImplementation: String { return declarationToken + "\n{\n  return \(valueToken);\n}" }
 }
 
 
