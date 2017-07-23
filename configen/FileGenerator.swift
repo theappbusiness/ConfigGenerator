@@ -59,8 +59,8 @@ struct FileGenerator {
   
   func methodDeclarationForVariableName(variableName: String, type: String, template: HeaderTemplate) -> String {
     var line = ""
-    
-    switch (type) {
+    let finalType = optionsParser.isObjC ? type.replacingOccurrences(of: "?", with: "") : type
+    switch (finalType) {
     case ("Double"):
       line = template.doubleDeclaration
       
@@ -78,7 +78,7 @@ struct FileGenerator {
       
     default:
       line = template.customDeclaration
-      line.replace(token: template.customTypeToken, withString: type)
+      line.replace(token: template.customTypeToken, withString: finalType)
     }
     
     line.replace(token: template.variableNameToken, withString: variableName)
@@ -94,41 +94,74 @@ struct FileGenerator {
     }
     
     var line = ""
+    var finalType = type
+    var isObjcOptional = false
     
-    switch (type) {
+    if optionsParser.isObjC && type.contains("?") {
+      finalType = type.replacingOccurrences(of: "?", with: "")
+      isObjcOptional = value as? String == "nil" ? true : false
+    }
+    
+    switch (finalType) {
     case ("Double"):
-      line = template.doubleImplementation
+      if let objcTemplate = template as? ObjectiveCTemplate, isObjcOptional == true {
+        line = generateObjcOptionalImplementationLineWithTemplate(objcTemplate, declaration: objcTemplate.doubleDeclaration)
+      } else {
+        line = template.doubleImplementation
+      }
       
     case ("Int"):
-      line = template.integerImplementation
+      if let objcTemplate = template as? ObjectiveCTemplate, isObjcOptional == true {
+        line = generateObjcOptionalImplementationLineWithTemplate(objcTemplate, declaration: objcTemplate.integerDeclaration)
+      } else {
+        line = template.integerImplementation
+      }
       
     case ("String"):
-      line = template.stringImplementation
+      if let objcTemplate = template as? ObjectiveCTemplate, isObjcOptional == true {
+        line = generateObjcOptionalImplementationLineWithTemplate(objcTemplate, declaration: objcTemplate.stringDeclaration)
+      } else {
+        line = template.stringImplementation
+      }
       
     case ("Bool"):
-      let boolString = value as! Bool ? template.trueString : template.falseString
-      line = template.booleanImplementation
-      line.replace(token: template.valueToken, withString: boolString)
+      if let objcTemplate = template as? ObjectiveCTemplate, isObjcOptional == true {
+        line = generateObjcOptionalImplementationLineWithTemplate(objcTemplate, declaration: objcTemplate.booleanDeclaration)
+      } else {
+        let boolString = value as! Bool ? template.trueString : template.falseString
+        line = template.booleanImplementation
+        line.replace(token: template.valueToken, withString: boolString)
+      }
       
     case ("URL"):
-      let url = URL(string: "\(value)")!
-      guard url.host != nil else {
-        fatalError("Found URL without host: \(url) for setting: \(variableName)")
+      if let objcTemplate = template as? ObjectiveCTemplate, isObjcOptional == true {
+        line = generateObjcOptionalImplementationLineWithTemplate(objcTemplate, declaration: objcTemplate.urlDeclaration)
+      } else {
+        let url = URL(string: "\(value)")!
+        guard url.host != nil else {
+          fatalError("Found URL without host: \(url) for setting: \(variableName)")
+        }
+        line = template.urlImplementation
       }
-      line = template.urlImplementation
       
     default:
       guard value is String else {
-        fatalError("Value (\(value)) must be a string in order to be used by custom type \(type)")
+        fatalError("Value (\(value)) must be a string in order to be used by custom type \(finalType)")
       }
       line = template.customImplementation
-      line.replace(token: template.customTypeToken, withString: type)
+      line.replace(token: template.customTypeToken, withString: finalType)
     }
     
     line.replace(token: template.variableNameToken, withString: variableName)
     line.replace(token: template.valueToken, withString: "\(value)")
     
     return line
+  }
+  
+  func generateObjcOptionalImplementationLineWithTemplate(_ template: ObjectiveCTemplate, declaration: String) -> String {
+    var result = template.optionalImplementation
+    result.replace(token: template.declarationToken, withString: declaration)
+    return result
   }
   
 }
