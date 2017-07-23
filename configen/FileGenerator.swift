@@ -104,49 +104,39 @@ struct FileGenerator {
     
     switch (finalType) {
     case ("Double"):
-      if isObjcOptional && template is ObjectiveCTemplate{
-        let objcTemplate = template as! ObjectiveCTemplate
-        line = objcTemplate .optionalImplementation
-        line.replace(token: objcTemplate.declarationToken, withString: objcTemplate.doubleDeclaration)
-      }else {
+      if let objcTemplate = template as? ObjectiveCTemplate, isObjcOptional == true {
+        line = generateObjcOptionalImplementationLineWithTemplate(objcTemplate, declaration: objcTemplate.doubleDeclaration)
+      } else {
         line = template.doubleImplementation
       }
       
     case ("Int"):
-      if isObjcOptional && template is ObjectiveCTemplate{
-        let objcTemplate = template as! ObjectiveCTemplate
-        line = objcTemplate .optionalImplementation
-        line.replace(token: objcTemplate.declarationToken, withString: objcTemplate.integerDeclaration)
-      }else {
+      if let objcTemplate = template as? ObjectiveCTemplate, isObjcOptional == true {
+        line = generateObjcOptionalImplementationLineWithTemplate(objcTemplate, declaration: objcTemplate.integerDeclaration)
+      } else {
         line = template.integerImplementation
       }
       
     case ("String"):
-      if isObjcOptional && template is ObjectiveCTemplate{
-        let objcTemplate = template as! ObjectiveCTemplate
-        line = objcTemplate .optionalImplementation
-        line.replace(token: objcTemplate.declarationToken, withString: objcTemplate.stringDeclaration)
-      }else {
+      if let objcTemplate = template as? ObjectiveCTemplate, isObjcOptional == true {
+        line = generateObjcOptionalImplementationLineWithTemplate(objcTemplate, declaration: objcTemplate.stringDeclaration)
+      } else {
         line = template.stringImplementation
       }
       
     case ("Bool"):
-      if isObjcOptional && template is ObjectiveCTemplate{
-        let objcTemplate = template as! ObjectiveCTemplate
-        line = objcTemplate .optionalImplementation
-        line.replace(token: objcTemplate.declarationToken, withString: objcTemplate.booleanDeclaration)
-      }else {
+      if let objcTemplate = template as? ObjectiveCTemplate, isObjcOptional == true {
+        line = generateObjcOptionalImplementationLineWithTemplate(objcTemplate, declaration: objcTemplate.booleanDeclaration)
+      } else {
         let boolString = value as! Bool ? template.trueString : template.falseString
         line = template.booleanImplementation
         line.replace(token: template.valueToken, withString: boolString)
       }
       
     case ("URL"):
-      if isObjcOptional && template is ObjectiveCTemplate{
-        let objcTemplate = template as! ObjectiveCTemplate
-        line = objcTemplate .optionalImplementation
-        line.replace(token: objcTemplate.declarationToken, withString: objcTemplate.urlDeclaration)
-      }else {
+      if let objcTemplate = template as? ObjectiveCTemplate, isObjcOptional == true {
+        line = generateObjcOptionalImplementationLineWithTemplate(objcTemplate, declaration: objcTemplate.urlDeclaration)
+      } else {
         let url = URL(string: "\(value)")!
         guard url.host != nil else {
           fatalError("Found URL without host: \(url) for setting: \(variableName)")
@@ -166,6 +156,12 @@ struct FileGenerator {
     line.replace(token: template.valueToken, withString: "\(value)")
     
     return line
+  }
+  
+  func generateObjcOptionalImplementationLineWithTemplate(_ template: ObjectiveCTemplate, declaration: String) -> String {
+    var result = template.optionalImplementation
+    result.replace(token: template.declarationToken, withString: declaration)
+    return result
   }
   
 }
