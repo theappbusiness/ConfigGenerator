@@ -57,7 +57,7 @@ Using the above example, the property list source code for a production environm
 
 ## Step 3: An external build step for each environment
 
-Finally, you need to create a build target for each of your enviroments. This can be done be selecting File -> New -> Target and selecting 'External Build System' from the 'Cross-Platform' tab.
+Finally, you need to create a build target for each of your environments. This can be done be selecting File -> New -> Target and selecting 'External Build System' from the 'Cross-Platform' tab.
 
 In the settings of each build target point the 'Build Tool' to the location of the `configen` script that you copied to your directory earlier and invoke the arguments as follows. Note that the output directory must be created separately.
 
