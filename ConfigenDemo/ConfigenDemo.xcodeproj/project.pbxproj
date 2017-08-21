@@ -91,11 +91,11 @@
 /* Begin PBXLegacyTarget section */
 		91CF77DA1E1FB702009FD04D /* prod */ = {
 			isa = PBXLegacyTarget;
-			buildArgumentsString = "-p $(SRCROOT)/prod-config.plist -h $(SRCROOT)/AppEnvironment.map -n AppEnvironment -o $(SRCROOT)/AppEnvironment";
+			buildArgumentsString = "-p ./prod-config.plist -h ./AppEnvironment.map -n AppEnvironment -o ./AppEnvironment";
 			buildConfigurationList = 91CF77DB1E1FB702009FD04D /* Build configuration list for PBXLegacyTarget "prod" */;
 			buildPhases = (
 			);
-			buildToolPath = "$(SRCROOT)/configen";
+			buildToolPath = ./configen;
 			buildWorkingDirectory = "";
 			dependencies = (
 			);
@@ -105,11 +105,11 @@
 		};
 		91CF77DE1E1FB75E009FD04D /* test */ = {
 			isa = PBXLegacyTarget;
-			buildArgumentsString = "-p $(SRCROOT)/test-config.plist -h $(SRCROOT)/AppEnvironment.map -n AppEnvironment -o $(SRCROOT)/AppEnvironment";
+			buildArgumentsString = "-p ./test-config.plist -h ./AppEnvironment.map -n AppEnvironment -o ./AppEnvironment";
 			buildConfigurationList = 91CF77DF1E1FB75E009FD04D /* Build configuration list for PBXLegacyTarget "test" */;
 			buildPhases = (
 			);
-			buildToolPath = "$(SRCROOT)/configen";
+			buildToolPath = ./configen;
 			buildWorkingDirectory = "";
 			dependencies = (
 			);
