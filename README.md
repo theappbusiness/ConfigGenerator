@@ -7,17 +7,17 @@ create the kind of configuration needed for external URLs or API keys used by yo
 
 # Installation
 
-To add the `configen` tool to your Xcode project you need to download or clone this repository. Open and build the `configen.xcodeproj` project in Xcode and copy the product to the root directory of your project. 
+To add the `configen` tool to your project you must first aquire the `configen` excecutable binary. The simplest way to do this is to download the executable binary from the latest release.
 
-The easiest way to do this is to right click on the `configen` product and select ‘Show in Finder’. This file can then be copied to your directory.
+Alternatively you can download or clone this repository. Once you have done so, open and build the `configen.xcodeproj` project in Xcode, right click on the `configen` product and select ‘Show in Finder’.
 
-Once you have copied the tool to your directory you are ready to go! Now you need to create the relevant files and set-up your project accordingly. This is outlined below.
+Once you have the executable file, make a copy and add it to the root directory of your project. Now you are ready to go! Next you need to create the relevant files and set-up your project accordingly. This is outlined below.
 
 # Usage
 
 ## Step 1: The mapping file
 
-Before running the `configen` tool, you need to create a mapping file, in which you define the configuration variables you support. For example:
+Before running the `configen` tool, you need to create a mapping file (.map), in which you define the configuration variables you support. For example:
 
 ```swift
 entryPointURL : URL
