@@ -43,11 +43,11 @@ class OptionsParser {
   
   lazy var plistDictionary: Dictionary<String, AnyObject> = { [unowned self] in
     
-    guard let inputPlistFilePathURL = URL(string: "file://\(self.inputPlistFilePath)"),
-      let data = try? Data(contentsOf: inputPlistFilePathURL) else {
+     let inputPlistFilePathURL = URL(fileURLWithPath: self.inputPlistFilePath)
+      guard let data = try? Data(contentsOf: inputPlistFilePathURL) else {
         fatalError("No data at path: \(self.inputPlistFilePath)")
     }
-    
+
     guard let plistDictionary = (try? PropertyListSerialization.propertyList(from: data, options: [], format: nil)) as? Dictionary<String, AnyObject> else {
       fatalError("Failed to create plist")
     }
