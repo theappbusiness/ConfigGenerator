@@ -95,14 +95,16 @@ internal extension String {
     for i in self.characters.indices {
       let c = self[i]
       if c == by && (maxSplits == 0 || numSplits < maxSplits) {
-        s.append(self[curIdx..<i])
+        let substring = self[curIdx..<i]
+        s.append(String(substring))
         curIdx = self.index(after: i)
         numSplits += 1
       }
     }
 
     if curIdx != self.endIndex {
-      s.append(self[curIdx..<self.endIndex])
+      let substring = self[curIdx..<self.endIndex]
+      s.append(String(substring))
     }
 
     return s
