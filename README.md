@@ -1,3 +1,5 @@
+![The App Business](Assets/logo.png)
+
 # configen
 
 A command line tool to auto-generate configuration file code, for use in Xcode projects. To read about the motivation behind this project and the scenarios in which it might be used see our [blog post](http://www.theappbusiness.com/blog/a-robust-multi-environment-build-setup). 
