@@ -103,7 +103,7 @@ struct SwiftTemplate: ImplementationTemplate {
   
   var outputImplementationFileName: String { return "\(optionsParser.outputClassDirectory)/\(optionsParser.outputClassName).swift" }
   
-  var implementationBody: String { return "\n\nclass \(optionsParser.outputClassName) {\n\(bodyToken)\n}\n\n" }
+  var implementationBody: String { return "\n\nclass \(optionsParser.outputClassName) {\n\(bodyToken)\n}\n" }
 
   var integerImplementation: String { return "  static let \(variableNameToken): Int = \(valueToken)" }
   var doubleImplementation: String { return "  static let \(variableNameToken): Double = \(valueToken)" }
