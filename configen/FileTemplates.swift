@@ -80,7 +80,7 @@ struct ObjectiveCTemplate: HeaderTemplate, ImplementationTemplate {
 
   var implementationImportStatements: String { return "#import \"\(optionsParser.outputClassName).h\"" }
   
-  var implementationBody: String { return "\n\n@implementation \(optionsParser.outputClassName) \n\(bodyToken)\n@end\n\n" }
+  var implementationBody: String { return "\n\n@implementation \(optionsParser.outputClassName) \n\(bodyToken)\n@end\n" }
 
   var integerImplementation: String { return integerDeclaration + "\n{\n  return @\(valueToken);\n}" }
   var doubleImplementation: String { return doubleDeclaration + "\n{\n  return @\(valueToken);\n}" }
