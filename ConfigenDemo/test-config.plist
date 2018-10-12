@@ -13,6 +13,6 @@
 	<key>analyticsKey</key>
 	<string>tay663jsba9dn6d</string>
 	<key>environment</key>
-	<string>.Test</string>
+	<string>.test</string>
 </dict>
 </plist>
