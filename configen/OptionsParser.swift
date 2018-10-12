@@ -63,7 +63,7 @@ class OptionsParser {
     var hintsDictionary = Dictionary<String, String>()
     
     let hintLines = hintsString.components(separatedBy: CharacterSet.newlines)
-    for hintLine in hintLines where hintLine.trimmed.characters.count > 0 {
+    for hintLine in hintLines where hintLine.trimmed.count > 0 {
       let hints = hintLine.components(separatedBy: CharacterSet(charactersIn: ":")).map { $0.trimmed }
       guard hints.count == 2 else {
         fatalError("Expected \"variableName : Type\", instead of \"\(hintLine)\"")
