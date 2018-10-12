@@ -19,4 +19,3 @@ class AppEnvironment {
   static let retryCount: Int = 4
 
 }
-

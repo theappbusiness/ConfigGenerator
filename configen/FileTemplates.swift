@@ -55,17 +55,16 @@ extension ImplementationTemplate {
   var valueToken: String { return "$VALUE_TOKEN" }
 }
 
-
 struct ObjectiveCTemplate: HeaderTemplate, ImplementationTemplate {
-  
+
   let optionsParser: OptionsParser
-  
-  //MARK: - HeaderTemplate
-  
+
+  // MARK: - HeaderTemplate
+
   var outputHeaderFileName: String { return "\(optionsParser.outputClassDirectory)/\(optionsParser.outputClassName).h" }
-  
+
   var headerBody: String { return "@interface \(optionsParser.outputClassName) : NSObject \n\(bodyToken)\n@end\n" }
-  
+
   var doubleDeclaration: String { return "+ (NSNumber *)\(variableNameToken)" }
   var integerDeclaration: String { return "+ (NSNumber *)\(variableNameToken)" }
   var stringDeclaration: String { return "+ (NSString *)\(variableNameToken)" }
@@ -73,13 +72,13 @@ struct ObjectiveCTemplate: HeaderTemplate, ImplementationTemplate {
   var urlDeclaration: String { return "+ (NSURL *)\(variableNameToken)" }
   var customDeclaration: String { return "+ (\(customTypeToken))\(variableNameToken)" }
   var headerImportStatements: String { return "#import <Foundation/Foundation.h>\n\n" }
-  
-  //MARK: - ImplementationTemplate
+
+  // MARK: - ImplementationTemplate
 
   var outputImplementationFileName: String { return "\(optionsParser.outputClassDirectory)/\(optionsParser.outputClassName).m" }
 
   var implementationImportStatements: String { return "#import \"\(optionsParser.outputClassName).h\"" }
-  
+
   var implementationBody: String { return "\n\n@implementation \(optionsParser.outputClassName) \n\(bodyToken)\n@end\n" }
 
   var integerImplementation: String { return integerDeclaration + "\n{\n  return @\(valueToken);\n}" }
@@ -92,30 +91,26 @@ struct ObjectiveCTemplate: HeaderTemplate, ImplementationTemplate {
   var customImplementation: String { return customDeclaration + "\n{\n  return \(valueToken);\n}" }
 }
 
-
 struct SwiftTemplate: ImplementationTemplate {
-  
+
   let optionsParser: OptionsParser
-  
-  //MARK: - ImplementationTemplate
-    
+
+  // MARK: - ImplementationTemplate
+
   var implementationImportStatements: String { return "import Foundation" }
-  
+
   var outputImplementationFileName: String { return "\(optionsParser.outputClassDirectory)/\(optionsParser.outputClassName).swift" }
-  
+
   var implementationBody: String { return "\n\nclass \(optionsParser.outputClassName) {\n\(bodyToken)\n}\n" }
 
   var integerImplementation: String { return "  static let \(variableNameToken): Int = \(valueToken)" }
   var doubleImplementation: String { return "  static let \(variableNameToken): Double = \(valueToken)" }
   var stringImplementation: String { return "  static let \(variableNameToken): String = \"\(valueToken)\"" }
   var booleanImplementation: String { return "  static let \(variableNameToken): Bool = \(valueToken)" }
-  
+
   var trueString: String { return "true" }
   var falseString: String { return "false" }
-  
+
   var urlImplementation: String { return "  static let \(variableNameToken): URL = URL(string: \"\(valueToken)\")!" }
   var customImplementation: String { return "  static let \(variableNameToken): \(customTypeToken) = \(valueToken)" }
 }
-
-
-

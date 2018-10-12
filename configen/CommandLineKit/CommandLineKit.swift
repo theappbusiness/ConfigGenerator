@@ -18,9 +18,9 @@
 import Foundation
 /* Required for setlocale(3) */
 #if os(OSX)
-  import Darwin
+import Darwin
 #elseif os(Linux)
-  import Glibc
+import Glibc
 #endif
 
 let shortOptionPrefix = "-"
@@ -55,7 +55,7 @@ private struct StderrOutputStream: TextOutputStream {
  * a `ParseError`. You can then call `printUsage()` to output an automatically-generated usage
  * message.
  */
-public class CommandLineKit {
+public final class CommandLineKit {
   private var _arguments: [String]
   private var _options: [Option] = [Option]()
   private var _maxFlagDescriptionWidth: Int = 0
@@ -344,8 +344,8 @@ public class CommandLineKit {
         for (i, c) in flagCharactersEnumerator {
           for option in _options where option.flagMatch(String(c)) {
             /* Values are allowed at the end of the concatenated flags, e.g.
-            * -xvf <file1> <file2>
-            */
+             * -xvf <file1> <file2>
+             */
             let vals = (i == flagLength - 1) ? self._getFlagValues(idx, attachedArg) : [String]()
             guard option.setValue(vals) else {
               throw ParseError.invalidValueForOption(option, vals)

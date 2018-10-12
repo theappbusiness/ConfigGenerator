@@ -17,9 +17,9 @@
 
 /* Required for localeconv(3) */
 #if os(OSX)
-  import Darwin
+import Darwin
 #elseif os(Linux)
-  import Glibc
+import Glibc
 #endif
 
 internal extension String {
