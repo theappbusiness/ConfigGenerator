@@ -20,4 +20,3 @@ if parser.isObjC {
   let template = SwiftTemplate(optionsParser: parser)
   fileGenerator.generateImplementationFile(withTemplate: template)
 }
-

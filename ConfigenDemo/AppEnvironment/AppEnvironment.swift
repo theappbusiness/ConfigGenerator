@@ -12,11 +12,10 @@ class AppEnvironment {
 
   static let analyticsKey: String = "haf6d9fha8v56abs"
 
-  static let environment: Environment = .Production
+  static let environment: Environment = .production
 
   static let adUnitPrefix: String = "production_ad_unit"
 
   static let retryCount: Int = 4
 
 }
-

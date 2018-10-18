@@ -7,7 +7,7 @@
 //
 
 enum Environment {
-  case Development
-  case Test
-  case Production
+  case development
+  case test
+  case production
 }

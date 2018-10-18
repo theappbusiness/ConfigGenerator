@@ -13,6 +13,6 @@
 	<key>analyticsKey</key>
 	<string>haf6d9fha8v56abs</string>
 	<key>environment</key>
-	<string>.Production</string>
+	<string>.production</string>
 </dict>
 </plist>

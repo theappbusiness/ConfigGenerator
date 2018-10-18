@@ -46,7 +46,7 @@ public class Option {
 
   internal init(_ shortFlag: String?, _ longFlag: String?, _ required: Bool, _ helpMessage: String) {
     if let sf = shortFlag {
-      assert(sf.characters.count == 1, "Short flag must be a single character")
+      assert(sf.count == 1, "Short flag must be a single character")
       assert(Int(sf) == nil && sf.toDouble() == nil, "Short flag cannot be a numeric value")
     }
 
@@ -196,7 +196,7 @@ public class DoubleOption: Option {
 
 /**  An option that accepts a string value. */
 public class StringOption: Option {
-  private var _value: String? = nil
+  private var _value: String?
 
   public var value: String? {
     return _value
@@ -251,7 +251,7 @@ public class MultiStringOption: Option {
 }
 
 /** An option that represents an enum value. */
-public class EnumOption<T:RawRepresentable>: Option where T.RawValue == String {
+public class EnumOption<T: RawRepresentable>: Option where T.RawValue == String {
   private var _value: T?
   public var value: T? {
     return _value
