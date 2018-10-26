@@ -18,9 +18,9 @@
 import Foundation
 /* Required for setlocale(3) */
 #if os(OSX)
-  import Darwin
+import Darwin
 #elseif os(Linux)
-  import Glibc
+import Glibc
 #endif
 
 let shortOptionPrefix = "-"
@@ -55,7 +55,7 @@ private struct StderrOutputStream: TextOutputStream {
  * a `ParseError`. You can then call `printUsage()` to output an automatically-generated usage
  * message.
  */
-public class CommandLineKit {
+public final class CommandLineKit {
   private var _arguments: [String]
   private var _options: [Option] = [Option]()
   private var _maxFlagDescriptionWidth: Int = 0
@@ -130,7 +130,7 @@ public class CommandLineKit {
    */
   public var maxFlagDescriptionWidth: Int {
     if _maxFlagDescriptionWidth == 0 {
-      _maxFlagDescriptionWidth = _options.map { $0.flagDescription.characters.count }.sorted().first ?? 0
+      _maxFlagDescriptionWidth = _options.map { $0.flagDescription.count }.sorted().first ?? 0
     }
 
     return _maxFlagDescriptionWidth
@@ -307,7 +307,7 @@ public class CommandLineKit {
       }
 
       let skipChars = arg.hasPrefix(longOptionPrefix) ?
-        longOptionPrefix.characters.count : shortOptionPrefix.characters.count
+        longOptionPrefix.count : shortOptionPrefix.count
       let flagWithArg = arg[arg.index(arg.startIndex, offsetBy: skipChars)..<arg.endIndex]
 
       /* The argument contained nothing but ShortOptionPrefix or LongOptionPrefix */
@@ -338,14 +338,14 @@ public class CommandLineKit {
       }
 
       /* Flags that do not take any arguments can be concatenated */
-      let flagLength = flag.characters.count
+      let flagLength = flag.count
       if !flagMatched && !arg.hasPrefix(longOptionPrefix) {
-        let flagCharactersEnumerator = flag.characters.enumerated()
+        let flagCharactersEnumerator = flag.enumerated()
         for (i, c) in flagCharactersEnumerator {
           for option in _options where option.flagMatch(String(c)) {
             /* Values are allowed at the end of the concatenated flags, e.g.
-            * -xvf <file1> <file2>
-            */
+             * -xvf <file1> <file2>
+             */
             let vals = (i == flagLength - 1) ? self._getFlagValues(idx, attachedArg) : [String]()
             guard option.setValue(vals) else {
               throw ParseError.invalidValueForOption(option, vals)
