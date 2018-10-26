@@ -37,7 +37,7 @@ Using the above example, the struct would look like this:
 ```swift
 struct StagingConfig: ConfigProtocol {
 	static let showDebugScreen: Bool = true
-	static let apiBaseUrl: URL = "http://api-staging.client.com/v1"
+	static let apiBaseUrl: URL = URL(string: "http://api-staging.client.com/v1")!
 }
 ```
 
