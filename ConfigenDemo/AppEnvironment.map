@@ -1,6 +1,0 @@
-entryPointURL : URL
-enableFileSharing : Bool
-retryCount : Int
-adUnitPrefix : String
-analyticsKey : String
-environment : Environment
