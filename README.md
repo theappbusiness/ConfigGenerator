@@ -29,7 +29,7 @@ An example protocol file will look like this:
 // ConfigProtocol.swift
 protocol ConfigProtocol {
     static var showDebugScreen: Bool { get }
-	static var apiBaseUrl: URL { get }
+    static var apiBaseUrl: URL { get }
 }
 ```
 
@@ -64,18 +64,18 @@ Finally, you need to create a build target for each of your environments. This c
 In the settings of each build target point the 'Build Tool' to the location of the `configen` script that you copied to your directory earlier and invoke the arguments as follows. Note that the output directory must be created separately.
 
 ```sh
-configen --swift-path <struct> --struct-name <output-struct-name> --output-directory <output-directory>
+configen --config-path <struct> --struct-name <output-struct-name> --output-directory <output-directory>
 
-  -s, --swift-path:
-      Path to the input plist file
-  -n, --struct-name:
-      The output config struct name
-  -o, --output-directory:
-      The output config struct directory
+  -p, --config-path
+      The path to the input configuration file
+  -n, --struct-name
+      The output configuration struct name
+  -o, --output-directory
+      The output configuration struct directory
 
 # Example
 
-configen --swift-path Config/StagingConfig.swift --class-name AppConfig --output-directory Config
+configen --config-path Config/StagingConfig.swift --class-name AppConfig --output-directory Config
 
 ```
 
