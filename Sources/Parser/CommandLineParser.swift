@@ -31,9 +31,14 @@ class CommandLineParser {
   init() {
     let flags = Flags()
     
-    let _inputSwiftFilePath = flags.string("s", "swift-path", description: "Path to the input swift file.")
-    let _outputStructName = flags.string("n", "struct-name", description: "The output config struct name")
-    let _outputStructDirectory = flags.string("o", "output-directory", description: "The output config struct directory")
+    let _inputSwiftFilePath = flags.string("p", "config-path", description: "The path to the input configuration file")
+    let _outputStructName = flags.string("n", "struct-name", description: "The output configuration struct name")
+    let _outputStructDirectory = flags.string("o", "output-directory", description: "The output configuration struct directory")
+    
+    if flags.parameters.isEmpty {
+      print(flags.usageDescription())
+      fatalError("No parameters found!")
+    }
     
     if let error = flags.parsingFailure() {
       print(flags.usageDescription())
