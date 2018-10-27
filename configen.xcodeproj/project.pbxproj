@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7C0311872184D2A3008119D9 /* PrivateInitializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0311852184CFFC008119D9 /* PrivateInitializer.swift */; };
 		OBJ_100 /* DiagnosticConsumer.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_39 /* DiagnosticConsumer.swift */; };
 		OBJ_101 /* DiagnosticEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_40 /* DiagnosticEngine.swift */; };
 		OBJ_102 /* JSONDiagnosticConsumer.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_41 /* JSONDiagnosticConsumer.swift */; };
@@ -74,7 +75,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		"CommandLineKit::CommandLineKit::Product" /* CommandLineKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = CommandLineKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		7C0311852184CFFC008119D9 /* PrivateInitializer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivateInitializer.swift; sourceTree = "<group>"; };
+		"CommandLineKit::CommandLineKit::Product" /* CommandLineKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = CommandLineKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		OBJ_10 /* Comment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
 		OBJ_11 /* FileRewriter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileRewriter.swift; sourceTree = "<group>"; };
 		OBJ_12 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
@@ -120,7 +122,7 @@
 		OBJ_6 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; indentWidth = 4; path = Package.swift; sourceTree = "<group>"; tabWidth = 4; usesTabs = 0; };
 		OBJ_60 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = Package.swift; path = "/Users/suyashsrijan/Documents/Xcode/ConfigGenerator/.build/checkouts/swift-syntax.git--5312576144211953611/Package.swift"; sourceTree = "<group>"; };
 		OBJ_9 /* CommandLineParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandLineParser.swift; sourceTree = "<group>"; };
-		"SwiftSyntax::SwiftSyntax::Product" /* SwiftSyntax.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SwiftSyntax.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		"SwiftSyntax::SwiftSyntax::Product" /* SwiftSyntax.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SwiftSyntax.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		"configen::configen::Product" /* configen */ = {isa = PBXFileReference; lastKnownFileType = text; path = configen; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -164,6 +166,7 @@
 			children = (
 				OBJ_10 /* Comment.swift */,
 				OBJ_11 /* FileRewriter.swift */,
+				7C0311852184CFFC008119D9 /* PrivateInitializer.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -251,7 +254,7 @@
 			path = ".build/checkouts/swift-syntax.git--5312576144211953611/Sources/SwiftSyntax";
 			sourceTree = SOURCE_ROOT;
 		};
-		OBJ_5 /*  */ = {
+		OBJ_5 = {
 			isa = PBXGroup;
 			children = (
 				OBJ_6 /* Package.swift */,
@@ -259,7 +262,6 @@
 				OBJ_14 /* Dependencies */,
 				OBJ_61 /* Products */,
 			);
-			name = "";
 			sourceTree = "<group>";
 		};
 		OBJ_51 /* gyb_generated */ = {
@@ -407,7 +409,7 @@
 			knownRegions = (
 				en,
 			);
-			mainGroup = OBJ_5 /*  */;
+			mainGroup = OBJ_5;
 			productRefGroup = OBJ_61 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -437,6 +439,7 @@
 			files = (
 				OBJ_132 /* CommandLineParser.swift in Sources */,
 				OBJ_133 /* Comment.swift in Sources */,
+				7C0311872184D2A3008119D9 /* PrivateInitializer.swift in Sources */,
 				OBJ_134 /* FileRewriter.swift in Sources */,
 				OBJ_135 /* main.swift in Sources */,
 			);
