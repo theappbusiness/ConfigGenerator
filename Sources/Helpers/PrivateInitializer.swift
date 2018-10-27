@@ -1,5 +1,5 @@
 //
-//  PrivateInit.swift
+//  PrivateInitializer.swift
 //  CommandLineKit
 //
 //  Created by Suyash Srijan on 27/10/2018.
