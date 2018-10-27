@@ -75,7 +75,7 @@ configen --config-path <struct> --struct-name <output-struct-name> --output-dire
 
 # Example
 
-configen --config-path Config/StagingConfig.swift --class-name AppConfig --output-directory Config
+configen --config-path Config/StagingConfig.swift --struct-name AppConfig --output-directory Config
 
 ```
 
@@ -98,8 +98,8 @@ A new Swift configuration file will be created based on the parameters passed to
 
 struct AppConfig {
 	private init() {}
-	static let showDebugScreen: Bool = false
-	static let apiBaseUrl: URL = URL(string: "http://api.client.com/v1")
+	static let showDebugScreen: Bool = true
+	static let apiBaseUrl: URL = URL(string: "http://api-staging.client.com/v1")
 }
 ```
 
