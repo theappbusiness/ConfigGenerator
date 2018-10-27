@@ -12,6 +12,9 @@ import SwiftSyntax
 /// will be inserted into the output struct
 class PrivateInitializer {
   
+  // MARK: - Properties -
+  // MARK: Private
+  
   /// A token representing the private keyword
   private lazy var privateToken = SyntaxFactory.makeBlankDeclModifier().withName(SyntaxFactory.makePrivateKeyword(leadingTrivia: [.newlines(1), .tabs(1)], trailingTrivia: .spaces(1)))
   
@@ -23,6 +26,9 @@ class PrivateInitializer {
   /// For some reason, constructing one from scratch doesn't work, hence why
   /// this is hardcoded by using a token with hardcoded text.
   private lazy var emptyParamsBodyToken = SyntaxFactory.makeUnknown("() {}")
+  
+  // MARK: - Functions -
+  // MARK: Public
   
   /// Create a private initializer declaration with an empty parameter list
   /// and body
@@ -36,6 +42,8 @@ class PrivateInitializer {
       builder.useBody(buildEmptyCodeBlockSyntax())
     }
   }
+  
+  // MARK: Private
   
   /// Create an empty parameter list and body code block
   ///
