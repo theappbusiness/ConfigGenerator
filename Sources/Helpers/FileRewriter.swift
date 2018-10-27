@@ -42,7 +42,7 @@ class FileRewriter: SyntaxRewriter {
   /// - Returns: A `DeclSyntax` node
   override func visit(_ node: StructDeclSyntax) -> DeclSyntax {
     let newIdentifier = node.identifier.withKind(.identifier(name)).withTrailingTrivia(.spaces(1))
-    let privateInit = PrivateInit()
+    let privateInit = PrivateInitializer()
     let newMembers = node.members.members.inserting(privateInit.privateInitializerDeclWithEmptyBody(), at: 0)
     let newMembersList = node.members.withMembers(newMembers)
     return node.withIdentifier(newIdentifier).withInheritanceClause(nil).withMembers(newMembersList)
