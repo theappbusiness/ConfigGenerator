@@ -27,7 +27,8 @@ class CommandLineParser {
   // MARK: Public
   
   /// This method initializes the class, parses the command line arguments and sets the class parameters to the specified argument values.
-  /// An error is thrown if the arguments are incorrect.
+  /// An error is thrown if the parser fails to parse the arguments or if the number of
+  /// arguments are not equal to 6.
   init() {
     let flags = Flags()
     
@@ -35,9 +36,9 @@ class CommandLineParser {
     let _outputStructName = flags.string("n", "struct-name", description: "The output configuration struct name")
     let _outputStructDirectory = flags.string("o", "output-directory", description: "The output configuration struct directory")
     
-    if flags.parameters.isEmpty {
+    if flags.arguments.count != 6 {
       print(flags.usageDescription())
-      fatalError("No parameters found!")
+      fatalError()
     }
     
     if let error = flags.parsingFailure() {
