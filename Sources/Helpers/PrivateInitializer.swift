@@ -10,7 +10,7 @@ import SwiftSyntax
 
 /// This class is responsible for creating a private initializer declaration syntax, which
 /// will be inserted into the output struct
-class PrivateInit {
+class PrivateInitializer {
   
   /// A token representing the private keyword
   private lazy var privateToken = SyntaxFactory.makeBlankDeclModifier().withName(SyntaxFactory.makePrivateKeyword(leadingTrivia: [.newlines(1), .tabs(1)], trailingTrivia: .spaces(1)))
