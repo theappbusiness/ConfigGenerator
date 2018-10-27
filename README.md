@@ -105,7 +105,7 @@ A new Swift configuration file will be created based on the parameters passed to
 import Foundation
 
 struct AppConfig {
-	private init() {}
+  private init() {}
   static let showDebugScreen: Bool = true
   static let apiBaseUrl: URL = URL(string: "https://api-staging.client.com/v1")!
 }
