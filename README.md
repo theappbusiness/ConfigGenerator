@@ -27,9 +27,11 @@ An example protocol file will look like this:
 
 ```swift
 // ConfigProtocol.swift
+import Foundation
+
 protocol ConfigProtocol {
-    static var showDebugScreen: Bool { get }
-    static var apiBaseUrl: URL { get }
+  static var showDebugScreen: Bool { get }
+  static var apiBaseUrl: URL { get }
 }
 ```
 
@@ -41,27 +43,31 @@ Using the above example, the struct will look like this:
 
 ```swift
 // StagingConfig.swift
+import Foundation
+
 struct StagingConfig: ConfigProtocol {
-	static let showDebugScreen: Bool = true
-	static let apiBaseUrl: URL = URL(string: "http://api-staging.client.com/v1")!
+  static let showDebugScreen: Bool = true
+  static let apiBaseUrl: URL = URL(string: "https://api-staging.client.com/v1")!
 }
 ```
 
 ```swift
 // ProdConfig.swift
+import Foundation
+
 struct ProdConfig: ConfigProtocol {
-	static let showDebugScreen: Bool = false
-	static let apiBaseUrl: URL = URL(string: "http://api-prod.client.com/v1")!
+  static let showDebugScreen: Bool = false
+  static let apiBaseUrl: URL = URL(string: "https://api.client.com/v1")!
 }
 ```
 
 Before proceeding to the next step, ensure that both the protocol file and struct files are placed inside your project directory. To keep things simple it might be best to place all these files in the same place, for example, in a `Config` sub-folder. You will need to reference the path to these files in step 3. 
 
-## Step 3: An external build step for each environment
+## Step 3: A pre-action run script
 
-Finally, you need to create a build target for each of your environments. This can be done be selecting File -> New -> Target and selecting 'External Build System' from the 'Cross-Platform' tab.
+Finally, you need to add a pre-action run script to your scheme's build step. This can be done by Edit Scheme -> [Select your scheme] -> Build -> Pre-action -> New run script action
 
-In the settings of each build target point the 'Build Tool' to the location of the `configen` script that you copied to your directory earlier and invoke the arguments as follows. Note that the output directory must be created separately.
+In the script, point to the location of the `configen` executable that you copied to your directory earlier and invoke the arguments as follows. Note that the output directory must be created separately.
 
 ```sh
 configen --config-path <struct> --struct-name <output-struct-name> --output-directory <output-directory>
@@ -79,7 +85,7 @@ configen --config-path Config/StagingConfig.swift --struct-name AppConfig --outp
 
 ```
 
-The best way to support multiple environments is to define a separate scheme for each one. Then add the relevant target as an external build step for each scheme.
+The best way to support multiple environments is to define a separate scheme for each one and then repeat the steps above for each scheme.
 
 Please refer to the example project included in the repository for further guidance.
 
@@ -96,10 +102,12 @@ A new Swift configuration file will be created based on the parameters passed to
  README: https://github.com/theappbusiness/ConfigGenerator/blob/master/README.md
 */
 
+import Foundation
+
 struct AppConfig {
 	private init() {}
-	static let showDebugScreen: Bool = true
-	static let apiBaseUrl: URL = URL(string: "http://api-staging.client.com/v1")
+  static let showDebugScreen: Bool = true
+  static let apiBaseUrl: URL = URL(string: "https://api-staging.client.com/v1")!
 }
 ```
 
