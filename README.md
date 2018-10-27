@@ -9,35 +9,49 @@ create the kind of configuration needed for external URLs or API keys used by yo
 
 # Installation
 
-To add the `configen` tool to your project you must first aquire the `configen` excecutable binary. The simplest way to do this is to download the executable binary from the latest release.
+To add the `configen` tool to your project, you must first aquire the `configen` excecutable binary and the necessary frameworks. The simplest way to do this is to download the executable binary and frameworks from the latest release.
 
-Alternatively you can download or clone this repository. Once you have done so, open and build the `configen.xcodeproj` project in Xcode, right click on the `configen` product and select ‘Show in Finder’.
+Alternatively, you can download or clone this repository. Once you have done so, open and build the `configen.xcodeproj` project in Xcode, right click on the `configen` product and select ‘Show in Finder’.
 
-Once you have the executable file, make a copy and add it to the root directory of your project. Now you are ready to go! Next you need to create the relevant files and set-up your project accordingly. This is outlined below.
+Once you have the executable file and the frameworks, make a copy and add it to the root directory of your project. Now you are ready to go! 
+
+Next you need to create the relevant files and set-up your project accordingly. This is outlined below.
 
 # Usage
 
 ## Step 1: The protocol
 
-Before running the `configen` tool, you need to create a protocol, in which you define the configuration variables you support. For example:
+The protocol file ensures all your configuration files have the same variables. The protocol file contains a Swift protocol declaration, where you define the configuration variables you support.
+
+An example protocol file will look like this:
 
 ```swift
+// ConfigProtocol.swift
 protocol ConfigProtocol {
-	static var showDebugScreen: Bool { get }
+    static var showDebugScreen: Bool { get }
 	static var apiBaseUrl: URL { get }
 }
 ```
 
 ## Step 2: A struct for each environment
 
-Then you need to create a struct, which conforms to the above protocol and in which you provide values for each of the keys defined in the protocol. For example, you may have a `staging` and a `production` environment.
+Once you have created a protocol, you need to create a struct, which conforms to your protocol and in which you provide values for each of the keys defined in your protocol. For example, you may have a `staging` and a `production` environment, in which case you will have to create two separate structs.
 
-Using the above example, the struct would look like this: 
+Using the above example, the struct will look like this: 
 
 ```swift
+// StagingConfig.swift
 struct StagingConfig: ConfigProtocol {
 	static let showDebugScreen: Bool = true
 	static let apiBaseUrl: URL = URL(string: "http://api-staging.client.com/v1")!
+}
+```
+
+```swift
+// ProdConfig.swift
+struct ProdConfig: ConfigProtocol {
+	static let showDebugScreen: Bool = false
+	static let apiBaseUrl: URL = URL(string: "http://api-prod.client.com/v1")!
 }
 ```
 
@@ -65,6 +79,6 @@ configen --swift-path Config/StagingConfig.swift --class-name AppConfig --output
 
 ```
 
-The best way to support multiple environments is to define a separate scheme for each one. Then add the relevant target as an external build step for each scheme ensuring that 'Parallelize Build' is disabled.
+The best way to support multiple environments is to define a separate scheme for each one. Then add the relevant target as an external build step for each scheme.
 
-Please refer to the example project included in the repository for further guidance. 
+Please refer to the example project included in the repository for further guidance.
