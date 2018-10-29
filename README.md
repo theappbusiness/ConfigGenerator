@@ -11,7 +11,7 @@ create the kind of configuration needed for external URLs or API keys used by yo
 
 To add the `configen` tool to your project, you must first aquire the `configen` excecutable binary and the necessary frameworks. The simplest way to do this is to download the executable binary and frameworks from the latest release.
 
-Alternatively, you can download or clone this repository. Once you have done so, open and build the `configen.xcodeproj` project in Xcode, right click on the `configen` product and select ‘Show in Finder’.
+Alternatively, you can download or clone this repository. Once you have done so, open a terminal window, `cd` to the repository's folder, and run `swift package update` to download the package dependencies, then `swift package generate-xcodeproj` to regenerate the Xcode project. Open and build the `configen.xcodeproj` project in Xcode, right click on the `configen` product and select ‘Show in Finder’.
 
 Once you have the executable file and the frameworks, make a copy and add it to the root directory of your project. Now you are ready to go! 
 
