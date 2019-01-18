@@ -21,7 +21,7 @@ struct FileGenerator {
   func generateHeaderFile(withTemplate template: HeaderTemplate) {
 
     var headerBodyContent = ""
-    optionsParser.sortedHintsTuple.forEach { hint in
+    optionsParser.sortedHints.forEach { hint in
       let headerLine = methodDeclaration(for: hint, template: template)
       headerBodyContent.append("\n" + headerLine + ";" + "\n")
     }
@@ -40,7 +40,7 @@ struct FileGenerator {
 
   func generateImplementationFile(withTemplate template: ImplementationTemplate) {
     var implementationBodyContent = ""
-    optionsParser.sortedHintsTuple.forEach { hint in
+    optionsParser.sortedHints.forEach { hint in
       let implementationLine = methodImplementation(for: hint, template: template)
       implementationBodyContent.append("\n" + implementationLine + "\n")
     }

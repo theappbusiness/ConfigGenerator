@@ -56,7 +56,7 @@ final class OptionsParser {
     return plistDictionary
     }()
   
-  lazy var sortedHintsTuple: [Hint] = { [unowned self] in
+  lazy var sortedHints: [Hint] = { [unowned self] in
     guard let hintsString = try? String(contentsOfFile: self.inputHintsFilePath, encoding: String.Encoding.utf8) else {
       fatalError("No data at path: \(self.inputHintsFilePath)")
     }
