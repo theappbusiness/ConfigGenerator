@@ -9,6 +9,8 @@
 import Foundation
 
 final class OptionsParser {
+  
+  typealias Hint = (variableName: String, type: String)
 
   let appName: String
   let inputPlistFilePath: String
@@ -54,7 +56,7 @@ final class OptionsParser {
     return plistDictionary
     }()
   
-  lazy var sortedHintsTuple: [(key: String, value: String)] = { [unowned self] in
+  lazy var sortedHintsTuple: [Hint] = { [unowned self] in
     guard let hintsString = try? String(contentsOfFile: self.inputHintsFilePath, encoding: String.Encoding.utf8) else {
       fatalError("No data at path: \(self.inputHintsFilePath)")
     }
@@ -69,7 +71,6 @@ final class OptionsParser {
       let (variableName, type) = (hints[0], hints[1])
       hintsDictionary[variableName] = type
     }
-    
-    return hintsDictionary.sorted(by: <)
+    return hintsDictionary.sorted(by: <).map { Hint(variableName: $0.key, type: $0.value) }
     }()
 }

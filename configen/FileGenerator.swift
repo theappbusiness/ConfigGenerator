@@ -21,8 +21,8 @@ struct FileGenerator {
   func generateHeaderFile(withTemplate template: HeaderTemplate) {
 
     var headerBodyContent = ""
-    optionsParser.sortedHintsTuple.forEach { (variableName, type) in
-      let headerLine = methodDeclarationForVariableName(variableName: variableName, type: type, template: template)
+    optionsParser.sortedHintsTuple.forEach { hint in
+      let headerLine = methodDeclaration(for: hint, template: template)
       headerBodyContent.append("\n" + headerLine + ";" + "\n")
     }
 
@@ -40,8 +40,8 @@ struct FileGenerator {
 
   func generateImplementationFile(withTemplate template: ImplementationTemplate) {
     var implementationBodyContent = ""
-    optionsParser.sortedHintsTuple.forEach { (variableName, type) in
-      let implementationLine = methodImplementationForVariableName(variableName: variableName, type: type, template: template)
+    optionsParser.sortedHintsTuple.forEach { hint in
+      let implementationLine = methodImplementation(for: hint, template: template)
       implementationBodyContent.append("\n" + implementationLine + "\n")
     }
 
@@ -57,10 +57,10 @@ struct FileGenerator {
 
   }
 
-  private func methodDeclarationForVariableName(variableName: String, type: String, template: HeaderTemplate) -> String {
+  private func methodDeclaration(for hint: OptionsParser.Hint, template: HeaderTemplate) -> String {
     var line = ""
 
-    switch type {
+    switch hint.type {
     case "Double":
       line = template.doubleDeclaration
 
@@ -78,23 +78,23 @@ struct FileGenerator {
 
     default:
       line = template.customDeclaration
-      line.replace(token: template.customTypeToken, withString: type)
+      line.replace(token: template.customTypeToken, withString: hint.type)
     }
 
-    line.replace(token: template.variableNameToken, withString: variableName)
+    line.replace(token: template.variableNameToken, withString: hint.variableName)
 
     return line
   }
 
-  private func methodImplementationForVariableName(variableName: String, type: String, template: ImplementationTemplate) -> String {
+  private func methodImplementation(for hint: OptionsParser.Hint, template: ImplementationTemplate) -> String {
 
-    guard let value = optionsParser.plistDictionary[variableName] else {
-      fatalError("No configuration setting for variable name: \(variableName)")
+    guard let value = optionsParser.plistDictionary[hint.variableName] else {
+      fatalError("No configuration setting for variable name: \(hint.variableName)")
     }
 
     var line = ""
 
-    switch type {
+    switch hint.type {
     case "Double":
       line = template.doubleImplementation
 
@@ -113,19 +113,19 @@ struct FileGenerator {
     case "URL":
       guard let url = URL(string: "\(value)") else { fatalError("Not a URL!") }
       guard url.host != nil else {
-        fatalError("Found URL without host: \(url) for setting: \(variableName)")
+        fatalError("Found URL without host: \(url) for setting: \(hint.variableName)")
       }
       line = template.urlImplementation
 
     default:
       guard value is String else {
-        fatalError("Value (\(value)) must be a string in order to be used by custom type \(type)")
+        fatalError("Value (\(value)) must be a string in order to be used by custom type \(hint.type)")
       }
       line = template.customImplementation
-      line.replace(token: template.customTypeToken, withString: type)
+      line.replace(token: template.customTypeToken, withString: hint.type)
     }
 
-    line.replace(token: template.variableNameToken, withString: variableName)
+    line.replace(token: template.variableNameToken, withString: hint.variableName)
     line.replace(token: template.valueToken, withString: "\(value)")
 
     return line
