@@ -9,6 +9,8 @@
 import Foundation
 
 final class OptionsParser {
+  
+  typealias Hint = (variableName: String, type: String)
 
   let appName: String
   let inputPlistFilePath: String
@@ -42,7 +44,6 @@ final class OptionsParser {
   }
 
   lazy var plistDictionary: [String: AnyObject] = { [unowned self] in
-
     let inputPlistFilePathURL = URL(fileURLWithPath: self.inputPlistFilePath)
     guard let data = try? Data(contentsOf: inputPlistFilePathURL) else {
       fatalError("No data at path: \(self.inputPlistFilePath)")
@@ -54,24 +55,21 @@ final class OptionsParser {
 
     return plistDictionary
     }()
-
-  lazy var hintsDictionary: [String: String] = { [unowned self] in
+  
+  lazy var sortedHints: [Hint] = { [unowned self] in
     guard let hintsString = try? String(contentsOfFile: self.inputHintsFilePath, encoding: String.Encoding.utf8) else {
       fatalError("No data at path: \(self.inputHintsFilePath)")
     }
 
-    var hintsDictionary = [String: String]()
-
+    var hints = [Hint]()
     let hintLines = hintsString.components(separatedBy: CharacterSet.newlines)
     for hintLine in hintLines where hintLine.trimmed.count > 0 {
-      let hints = hintLine.components(separatedBy: CharacterSet(charactersIn: ":")).map { $0.trimmed }
-      guard hints.count == 2 else {
+      let separatedHints = hintLine.components(separatedBy: CharacterSet(charactersIn: ":")).map { $0.trimmed }
+      guard separatedHints.count == 2 else {
         fatalError("Expected \"variableName : Type\", instead of \"\(hintLine)\"")
       }
-      let (variableName, type) = (hints[0], hints[1])
-      hintsDictionary[variableName] = type
+      hints.append(Hint(variableName: separatedHints[0], type: separatedHints[1]))
     }
-
-    return hintsDictionary
+    return hints.sorted(by: <)
     }()
 }
