@@ -70,6 +70,6 @@ final class OptionsParser {
       hintsDictionary[variableName] = type
     }
     
-    return hintsDictionary.sorted(by: { $0.0 < $1.0 })
+    return hintsDictionary.sorted(by: <)
     }()
 }
