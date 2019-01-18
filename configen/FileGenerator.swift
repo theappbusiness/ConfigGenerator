@@ -21,7 +21,7 @@ struct FileGenerator {
   func generateHeaderFile(withTemplate template: HeaderTemplate) {
 
     var headerBodyContent = ""
-    for (variableName, type) in optionsParser.hintsDictionary {
+    optionsParser.sortedHintsTuple.forEach { (variableName, type) in
       let headerLine = methodDeclarationForVariableName(variableName: variableName, type: type, template: template)
       headerBodyContent.append("\n" + headerLine + ";" + "\n")
     }
@@ -40,7 +40,7 @@ struct FileGenerator {
 
   func generateImplementationFile(withTemplate template: ImplementationTemplate) {
     var implementationBodyContent = ""
-    for (variableName, type) in optionsParser.hintsDictionary {
+    optionsParser.sortedHintsTuple.forEach { (variableName, type) in
       let implementationLine = methodImplementationForVariableName(variableName: variableName, type: type, template: template)
       implementationBodyContent.append("\n" + implementationLine + "\n")
     }
@@ -57,7 +57,7 @@ struct FileGenerator {
 
   }
 
-  func methodDeclarationForVariableName(variableName: String, type: String, template: HeaderTemplate) -> String {
+  private func methodDeclarationForVariableName(variableName: String, type: String, template: HeaderTemplate) -> String {
     var line = ""
 
     switch type {
@@ -86,7 +86,7 @@ struct FileGenerator {
     return line
   }
 
-  func methodImplementationForVariableName(variableName: String, type: String, template: ImplementationTemplate) -> String {
+  private func methodImplementationForVariableName(variableName: String, type: String, template: ImplementationTemplate) -> String {
 
     guard let value = optionsParser.plistDictionary[variableName] else {
       fatalError("No configuration setting for variable name: \(variableName)")

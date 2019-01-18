@@ -42,7 +42,6 @@ final class OptionsParser {
   }
 
   lazy var plistDictionary: [String: AnyObject] = { [unowned self] in
-
     let inputPlistFilePathURL = URL(fileURLWithPath: self.inputPlistFilePath)
     guard let data = try? Data(contentsOf: inputPlistFilePathURL) else {
       fatalError("No data at path: \(self.inputPlistFilePath)")
@@ -54,14 +53,13 @@ final class OptionsParser {
 
     return plistDictionary
     }()
-
-  lazy var hintsDictionary: [String: String] = { [unowned self] in
+  
+  lazy var sortedHintsTuple: [(key: String, value: String)] = { [unowned self] in
     guard let hintsString = try? String(contentsOfFile: self.inputHintsFilePath, encoding: String.Encoding.utf8) else {
       fatalError("No data at path: \(self.inputHintsFilePath)")
     }
 
     var hintsDictionary = [String: String]()
-
     let hintLines = hintsString.components(separatedBy: CharacterSet.newlines)
     for hintLine in hintLines where hintLine.trimmed.count > 0 {
       let hints = hintLine.components(separatedBy: CharacterSet(charactersIn: ":")).map { $0.trimmed }
@@ -71,7 +69,7 @@ final class OptionsParser {
       let (variableName, type) = (hints[0], hints[1])
       hintsDictionary[variableName] = type
     }
-
-    return hintsDictionary
+    
+    return hintsDictionary.sorted(by: { $0.0 < $1.0 })
     }()
 }
