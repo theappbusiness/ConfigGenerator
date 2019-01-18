@@ -61,16 +61,15 @@ final class OptionsParser {
       fatalError("No data at path: \(self.inputHintsFilePath)")
     }
 
-    var hintsDictionary = [String: String]()
+    var hints = [Hint]()
     let hintLines = hintsString.components(separatedBy: CharacterSet.newlines)
     for hintLine in hintLines where hintLine.trimmed.count > 0 {
-      let hints = hintLine.components(separatedBy: CharacterSet(charactersIn: ":")).map { $0.trimmed }
-      guard hints.count == 2 else {
+      let separatedHints = hintLine.components(separatedBy: CharacterSet(charactersIn: ":")).map { $0.trimmed }
+      guard separatedHints.count == 2 else {
         fatalError("Expected \"variableName : Type\", instead of \"\(hintLine)\"")
       }
-      let (variableName, type) = (hints[0], hints[1])
-      hintsDictionary[variableName] = type
+      hints.append(Hint(variableName: separatedHints[0], type: separatedHints[1]))
     }
-    return hintsDictionary.sorted(by: <).map { Hint(variableName: $0.key, type: $0.value) }
+    return hints.sorted(by: <)
     }()
 }
