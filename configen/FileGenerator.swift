@@ -120,7 +120,7 @@ struct FileGenerator {
       line = template.customImplementation
       line.replace(token: template.variableNameToken, withString: hint.variableName)
       line.replace(token: template.customTypeToken, withString: hint.type)
-      line.replace(token: template.valueToken, withString: formatArrayString(rawValue: value, rawType: str))
+      line.replace(token: template.valueToken, withString: formatRawArrayString(rawValue: value, rawType: str))
       return line
 
     default:
@@ -137,7 +137,7 @@ struct FileGenerator {
     return line
   }
 
-  private func formatArrayString(rawValue: AnyObject, rawType: String) -> String {
+  private func formatRawArrayString(rawValue: AnyObject, rawType: String) -> String {
     var rawTypeCopy = rawType
     var rawValueStr = "\(rawValue)"
 
@@ -147,7 +147,9 @@ struct FileGenerator {
     rawValueStr = String(rawValueStr.dropFirst()) // drop (
     rawValueStr = String(rawValueStr.dropLast()) // drop )
 
-    return "Array<\(rawTypeCopy)>(arrayLiteral: \(rawValueStr))"
+    rawValueStr = rawValueStr.trimmingCharacters(in: .whitespacesAndNewlines)
+
+    return "[\(rawValueStr)]"
   }
 }
 
