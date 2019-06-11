@@ -161,12 +161,11 @@ extension String {
   }
 
   func match(regex: String) -> Bool {
-    do {
-      let regex = try NSRegularExpression(pattern: regex, options: NSRegularExpression.Options.caseInsensitive)
-      let matches = regex.matches(in: self, options: [], range: NSRange(location: 0, length: self.utf16.count))
-      return !matches.isEmpty
-    } catch {
+    guard let regex = try? NSRegularExpression(pattern: regex, options: .caseInsensitive) else {
       return false
     }
+
+    let matches = regex.matches(in: self, options: [], range: NSRange(location: 0, length: self.utf16.count))
+    return !matches.isEmpty
   }
 }
