@@ -116,6 +116,12 @@ struct FileGenerator {
         fatalError("Found URL without host: \(url) for setting: \(hint.variableName)")
       }
       line = template.urlImplementation
+    case let str where str.match(regex: "^(?:\\[)\\w+(?:\\])$"):
+      line = template.customImplementation
+      line.replace(token: template.variableNameToken, withString: hint.variableName)
+      line.replace(token: template.customTypeToken, withString: hint.type)
+      line.replace(token: template.valueToken, withString: formatRawArrayString(rawValue: value, rawType: str))
+      return line
 
     default:
       guard value is String else {
@@ -131,6 +137,20 @@ struct FileGenerator {
     return line
   }
 
+  private func formatRawArrayString(rawValue: AnyObject, rawType: String) -> String {
+    var rawTypeCopy = rawType
+    var rawValueStr = "\(rawValue)"
+
+    rawTypeCopy = String(rawTypeCopy.dropFirst()) // drop [
+    rawTypeCopy = String(rawTypeCopy.dropLast()) // drop ]
+
+    rawValueStr = String(rawValueStr.dropFirst()) // drop (
+    rawValueStr = String(rawValueStr.dropLast()) // drop )
+
+    rawValueStr = rawValueStr.trimmingCharacters(in: .whitespacesAndNewlines)
+
+    return "[\(rawValueStr)]"
+  }
 }
 
 extension String {
@@ -140,5 +160,14 @@ extension String {
 
   var trimmed: String {
     return (self as NSString).trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
+  }
+
+  func match(regex: String) -> Bool {
+    guard let regex = try? NSRegularExpression(pattern: regex, options: .caseInsensitive) else {
+      return false
+    }
+
+    let matches = regex.matches(in: self, options: [], range: NSRange(location: 0, length: self.utf16.count))
+    return !matches.isEmpty
   }
 }
