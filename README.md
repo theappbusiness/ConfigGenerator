@@ -27,6 +27,7 @@ enableFileSharing : Bool
 retryCount : Int
 adUnitPrefix : String
 analyticsKey : String
+arrayOfHashes: [String]
 environment : Environment
 ```
 
@@ -98,6 +99,7 @@ Please refer to the example project included in the repository for further guida
 * `Bool`: Expects Boolean type in plist
 * `Double`: Expects floating point type in plist
 * `URL`: Expects a string in the plist, which can be converted to a URL (validated at compile time) 
+* `Array` : Expects an array of values in the plist
 
 # Custom types
 
@@ -129,3 +131,36 @@ You have to make the type in your plist a string, and input either a number -- e
 ```
   let retryCount: Int? = nil
 ```
+
+# Arrays
+
+Configen also supports reading arrays from the plist. For example, you can create an array of certificate hashes for pinning purposes and then in the mapping file, declare the configuration variable as something like `arrayOfHashes: [String]` and configen will automatically generate an array for you.
+
+The downside of using arrays in plist is that the order of the array and whether there are any array elements at all are not guaranteed, so keep that in mind when using this functionality.
+
+Example:
+
+## Plist
+
+```
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>arrayOfHashes</key>
+	<array>
+		<string>9BV3692736V893B47V893BY4V94B8V6123984BV6983V6B093</string>
+		<string>BVQ09PY89V86BY98VY9876BV9786B98687B6976BOP967BP96</string>
+		<string>PB869869P6B76P9B7869P8B69P697P69769769P7B697PB89B9</string>
+	</array>
+</dict>
+</plist>
+```
+
+## Mapping
+
+`arrayOfHashes: [String]`
+
+## Config file (*.swift)
+
+`static let arrayOfHashes: [String] = [...]`
