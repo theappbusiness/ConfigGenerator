@@ -134,7 +134,7 @@ You have to make the type in your plist a string, and input either a number -- e
 
 # Arrays
 
-Configen also supports reading arrays from the plist. For example, you can create an array of certificate hashes for pinning purposes and then in the mapping file, declare the configuration variable as something like `arrayOfHashes: [String]` and configen will automatically generate an array for you.
+Configen also supports reading arrays from the plist. For example, you can create an array of certificate hashes for pinning purposes and in the mapping file, declare the configuration variable as something like `arrayOfHashes: [String]` and then configen will automatically generate an array for you.
 
 The downside of using arrays in plist is that the order of the array and whether there are any array elements at all are not guaranteed, so keep that in mind when using this functionality.
 
@@ -165,8 +165,8 @@ Example:
 
 ```
 static let arrayOfHashes: [String] = [
-  9BV3692736V893B47V893BY4V94B8V6123984BV6983V6B093,
-  BVQ09PY89V86BY98VY9876BV9786B98687B6976BOP967BP96,
-  PB869869P6B76P9B7869P8B69P697P69769769P7B697PB89B
+  "9BV3692736V893B47V893BY4V94B8V6123984BV6983V6B093",
+  "BVQ09PY89V86BY98VY9876BV9786B98687B6976BOP967BP96",
+  "PB869869P6B76P9B7869P8B69P697P69769769P7B697PB89B"
 ]
 ```
