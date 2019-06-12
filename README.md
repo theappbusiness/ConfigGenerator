@@ -151,16 +151,22 @@ Example:
 	<array>
 		<string>9BV3692736V893B47V893BY4V94B8V6123984BV6983V6B093</string>
 		<string>BVQ09PY89V86BY98VY9876BV9786B98687B6976BOP967BP96</string>
-		<string>PB869869P6B76P9B7869P8B69P697P69769769P7B697PB89B9</string>
+		<string>PB869869P6B76P9B7869P8B69P697P69769769P7B697PB89B</string>
 	</array>
 </dict>
 </plist>
 ```
 
-## Mapping
+## Mapping (.map)
 
 `arrayOfHashes: [String]`
 
-## Config file (*.swift)
+## Config file (generated)
 
-`static let arrayOfHashes: [String] = [...]`
+```
+static let arrayOfHashes: [String] = [
+  9BV3692736V893B47V893BY4V94B8V6123984BV6983V6B093,
+  BVQ09PY89V86BY98VY9876BV9786B98687B6976BOP967BP96,
+  PB869869P6B76P9B7869P8B69P697P69769769P7B697PB89B
+]
+```
