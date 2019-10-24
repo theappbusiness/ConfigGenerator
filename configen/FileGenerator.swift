@@ -148,6 +148,10 @@ struct FileGenerator {
     rawValueStr = String(rawValueStr.dropLast()) // drop )
 
     rawValueStr = rawValueStr.trimmingCharacters(in: .whitespacesAndNewlines)
+    
+    if rawTypeCopy == "String" {
+      return "[\"\(rawValueStr)\"]"
+    }
 
     return "[\(rawValueStr)]"
   }
