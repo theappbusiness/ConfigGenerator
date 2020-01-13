@@ -134,7 +134,7 @@ You have to make the type in your plist a string, and input either a number -- e
 
 # Arrays
 
-Configen also supports reading arrays from the plist. For example, you can create an array of certificate hashes for pinning purposes and configen will automatically map them to an array in the generated configuration file.
+Configen also supports reading arrays from the plist. For example, you can create an array of certificate hashes for pinning purposes and configen will automatically map them to an array in the generated configuration file. Arrays can be recursive i.e. you can have an array of arrays of arbitrary depth.
 
 The downside of using an array in the plist is that the order of the array and whether there are any array elements at all is not guaranteed, so keep that in mind when using this functionality.
 
