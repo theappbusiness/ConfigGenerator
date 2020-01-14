@@ -89,7 +89,7 @@ final class ArrayUtils {
 	private static func castArrayElement(_ value: Any, arrayElementType: String) -> Any {
 		func emitFailedCastError() -> Never {
 			fatalError("Cast from element of type '\(type(of: value))' to " +
-				"type '\(arrayElementType.description)' is unsupported")
+				"type '\(arrayElementType)' is unsupported")
 		}
 		switch arrayElementType {
 			case "String":
