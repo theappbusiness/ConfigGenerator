@@ -116,14 +116,16 @@ struct FileGenerator {
         fatalError("Found URL without host: \(url) for setting: \(hint.variableName)")
       }
       line = template.urlImplementation
-    case let str where str.match(regex: "^(?:\\[)\\w+(?:\\])$"):
-      line = template.customImplementation
-      line.replace(token: template.variableNameToken, withString: hint.variableName)
-      line.replace(token: template.customTypeToken, withString: hint.type)
-      line.replace(token: template.valueToken, withString: formatRawArrayString(rawValue: value, rawType: str))
-      return line
-
     default:
+			// Check if this is an Array type
+			if case let .success(arrayElementType) = ArrayUtils.isValidArrayType(hint.type) {
+				let arrayString = ArrayUtils.transformArrayToString(arrayElementType, rawValue: value)
+				line = template.customImplementation
+				line.replace(token: template.variableNameToken, withString: hint.variableName)
+				line.replace(token: template.customTypeToken, withString: hint.type)
+				line.replace(token: template.valueToken, withString: arrayString)
+				return line
+			}
       guard value is String else {
         fatalError("Value (\(value)) must be a string in order to be used by custom type \(hint.type)")
       }
@@ -135,21 +137,6 @@ struct FileGenerator {
     line.replace(token: template.valueToken, withString: "\(value)")
 
     return line
-  }
-
-  private func formatRawArrayString(rawValue: AnyObject, rawType: String) -> String {
-    var rawTypeCopy = rawType
-    var rawValueStr = "\(rawValue)"
-
-    rawTypeCopy = String(rawTypeCopy.dropFirst()) // drop [
-    rawTypeCopy = String(rawTypeCopy.dropLast()) // drop ]
-
-    rawValueStr = String(rawValueStr.dropFirst()) // drop (
-    rawValueStr = String(rawValueStr.dropLast()) // drop )
-
-    rawValueStr = rawValueStr.trimmingCharacters(in: .whitespacesAndNewlines)
-
-    return "[\(rawValueStr)]"
   }
 }
 

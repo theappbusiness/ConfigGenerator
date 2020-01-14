@@ -10,6 +10,8 @@
 		2E378F961D5B811C00E9F524 /* OptionsParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E378F951D5B811C00E9F524 /* OptionsParser.swift */; };
 		2E4A8F311D5C77AB0025C677 /* FileTemplates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E4A8F301D5C77AB0025C677 /* FileTemplates.swift */; };
 		2E4A8F331D5CB7D60025C677 /* FileGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E4A8F321D5CB7D60025C677 /* FileGenerator.swift */; };
+		7CBA523323CDB84600B7136C /* ArrayUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CBA523223CDB84600B7136C /* ArrayUtils.swift */; };
+		7CBA523623CDBB6300B7136C /* Character+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CBA523523CDBB6300B7136C /* Character+Extensions.swift */; };
 		91ED18E61E02A48F00475042 /* CommandLineKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91084DEB1E02A0A9004E353B /* CommandLineKit.swift */; };
 		91ED18E71E02A49200475042 /* Option.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91084DED1E02A0A9004E353B /* Option.swift */; };
 		91ED18E81E02A49500475042 /* StringExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91084DEE1E02A0A9004E353B /* StringExtensions.swift */; };
@@ -32,6 +34,8 @@
 		2E378F951D5B811C00E9F524 /* OptionsParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OptionsParser.swift; sourceTree = "<group>"; };
 		2E4A8F301D5C77AB0025C677 /* FileTemplates.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileTemplates.swift; sourceTree = "<group>"; };
 		2E4A8F321D5CB7D60025C677 /* FileGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = FileGenerator.swift; sourceTree = "<group>"; tabWidth = 2; };
+		7CBA523223CDB84600B7136C /* ArrayUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrayUtils.swift; sourceTree = "<group>"; };
+		7CBA523523CDBB6300B7136C /* Character+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Character+Extensions.swift"; sourceTree = "<group>"; };
 		91084DEB1E02A0A9004E353B /* CommandLineKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandLineKit.swift; sourceTree = "<group>"; };
 		91084DEC1E02A0A9004E353B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		91084DED1E02A0A9004E353B /* Option.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Option.swift; sourceTree = "<group>"; };
@@ -51,6 +55,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		7CBA523423CDBB5400B7136C /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				7CBA523523CDBB6300B7136C /* Character+Extensions.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 		91084DEA1E02A0A9004E353B /* CommandLineKit */ = {
 			isa = PBXGroup;
 			children = (
@@ -81,11 +93,13 @@
 		EAD7A2A01BBABE83006A3921 /* configen */ = {
 			isa = PBXGroup;
 			children = (
+				7CBA523423CDBB5400B7136C /* Extensions */,
 				91084DEA1E02A0A9004E353B /* CommandLineKit */,
 				EAD7A2A11BBABE83006A3921 /* main.swift */,
 				2E378F951D5B811C00E9F524 /* OptionsParser.swift */,
 				2E4A8F301D5C77AB0025C677 /* FileTemplates.swift */,
 				2E4A8F321D5CB7D60025C677 /* FileGenerator.swift */,
+				7CBA523223CDB84600B7136C /* ArrayUtils.swift */,
 			);
 			path = configen;
 			sourceTree = "<group>";
@@ -131,6 +145,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 			);
 			mainGroup = EAD7A2951BBABE83006A3921;
@@ -151,9 +166,11 @@
 				91ED18E81E02A49500475042 /* StringExtensions.swift in Sources */,
 				91ED18E71E02A49200475042 /* Option.swift in Sources */,
 				91ED18E61E02A48F00475042 /* CommandLineKit.swift in Sources */,
+				7CBA523623CDBB6300B7136C /* Character+Extensions.swift in Sources */,
 				EAD7A2A21BBABE83006A3921 /* main.swift in Sources */,
 				2E4A8F331D5CB7D60025C677 /* FileGenerator.swift in Sources */,
 				2E378F961D5B811C00E9F524 /* OptionsParser.swift in Sources */,
+				7CBA523323CDB84600B7136C /* ArrayUtils.swift in Sources */,
 				2E4A8F311D5C77AB0025C677 /* FileTemplates.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
