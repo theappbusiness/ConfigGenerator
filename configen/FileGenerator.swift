@@ -117,15 +117,15 @@ struct FileGenerator {
       }
       line = template.urlImplementation
     default:
-			// Check if this is an Array type
-			if case let .success(arrayElementType) = ArrayUtils.isValidArrayType(hint.type) {
-				let arrayString = ArrayUtils.transformArrayToString(arrayElementType, rawValue: value)
-				line = template.customImplementation
-				line.replace(token: template.variableNameToken, withString: hint.variableName)
-				line.replace(token: template.customTypeToken, withString: hint.type)
-				line.replace(token: template.valueToken, withString: arrayString)
-				return line
-			}
+	  // Check if this is an Array type
+	  if case let .success(arrayElementType) = ArrayUtils.isValidArrayType(hint.type) {
+		let arrayString = ArrayUtils.transformArrayToString(arrayElementType, rawValue: value)
+		line = template.customImplementation
+		line.replace(token: template.variableNameToken, withString: hint.variableName)
+		line.replace(token: template.customTypeToken, withString: hint.type)
+		line.replace(token: template.valueToken, withString: arrayString)
+		return line
+	  }
       guard value is String else {
         fatalError("Value (\(value)) must be a string in order to be used by custom type \(hint.type)")
       }
