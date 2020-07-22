@@ -57,13 +57,13 @@ extension ImplementationTemplate {
 
 struct ObjectiveCTemplate: HeaderTemplate, ImplementationTemplate {
 
-  let optionsParser: OptionsParser
+  let options: Options
 
   // MARK: - HeaderTemplate
 
-  var outputHeaderFileName: String { return "\(optionsParser.outputClassDirectory)/\(optionsParser.outputClassName).h" }
+  var outputHeaderFileName: String { return "\(options.outputClassDirectory)/\(options.outputClassName).h" }
 
-  var headerBody: String { return "@interface \(optionsParser.outputClassName) : NSObject \n\(bodyToken)\n@end\n" }
+  var headerBody: String { return "@interface \(options.outputClassName) : NSObject \n\(bodyToken)\n@end\n" }
 
   var doubleDeclaration: String { return "+ (NSNumber *)\(variableNameToken)" }
   var integerDeclaration: String { return "+ (NSNumber *)\(variableNameToken)" }
@@ -75,11 +75,11 @@ struct ObjectiveCTemplate: HeaderTemplate, ImplementationTemplate {
 
   // MARK: - ImplementationTemplate
 
-  var outputImplementationFileName: String { return "\(optionsParser.outputClassDirectory)/\(optionsParser.outputClassName).m" }
+  var outputImplementationFileName: String { return "\(options.outputClassDirectory)/\(options.outputClassName).m" }
 
-  var implementationImportStatements: String { return "#import \"\(optionsParser.outputClassName).h\"" }
+  var implementationImportStatements: String { return "#import \"\(options.outputClassName).h\"" }
 
-  var implementationBody: String { return "\n\n@implementation \(optionsParser.outputClassName) \n\(bodyToken)\n@end\n" }
+  var implementationBody: String { return "\n\n@implementation \(options.outputClassName) \n\(bodyToken)\n@end\n" }
 
   var integerImplementation: String { return integerDeclaration + "\n{\n  return @\(valueToken);\n}" }
   var doubleImplementation: String { return doubleDeclaration + "\n{\n  return @\(valueToken);\n}" }
@@ -93,15 +93,15 @@ struct ObjectiveCTemplate: HeaderTemplate, ImplementationTemplate {
 
 struct SwiftTemplate: ImplementationTemplate {
 
-  let optionsParser: OptionsParser
+  let options: Options
 
   // MARK: - ImplementationTemplate
 
   var implementationImportStatements: String { return "import Foundation" }
 
-  var outputImplementationFileName: String { return "\(optionsParser.outputClassDirectory)/\(optionsParser.outputClassName).swift" }
+  var outputImplementationFileName: String { return "\(options.outputClassDirectory)/\(options.outputClassName).swift" }
 
-  var implementationBody: String { return "\n\nclass \(optionsParser.outputClassName) {\n\(bodyToken)\n}\n" }
+  var implementationBody: String { return "\n\nclass \(options.outputClassName) {\n\(bodyToken)\n}\n" }
 
   var integerImplementation: String { return "  static let \(variableNameToken): Int = \(valueToken)" }
   var doubleImplementation: String { return "  static let \(variableNameToken): Double = \(valueToken)" }

@@ -7,16 +7,40 @@
 //
 
 import Foundation
+import ArgumentParser
 
-let appName = (CommandLine.arguments.first! as NSString).lastPathComponent
-let parser = OptionsParser(appName: appName)
-let fileGenerator = FileGenerator(optionsParser: parser)
+struct Configen: ParsableCommand {
 
-if parser.isObjC {
-  let template = ObjectiveCTemplate(optionsParser: parser)
-  fileGenerator.generateHeaderFile(withTemplate: template)
-  fileGenerator.generateImplementationFile(withTemplate: template)
-} else {
-  let template = SwiftTemplate(optionsParser: parser)
-  fileGenerator.generateImplementationFile(withTemplate: template)
+    static let configuration = CommandConfiguration(helpNames: .long)
+
+    @Option(name: .shortAndLong, help: "Path to the input plist file")
+    var plistPath: String = ""
+
+    @Option(name: .shortAndLong, help: "Path to the input hints file")
+    var hintsPath: String = ""
+
+    @Option(name: [.customShort("n"), .long], help: "The output config class name")
+    var className: String = ""
+
+    @Option(name: .shortAndLong, help: "The output config class directory")
+    var outputDirectory: String = ""
+
+    @Flag(name: [.customShort("c"), .customLong("objective-c")], help: "Whether to generate Objective-C files instead of Swift. Default value of false")
+    var isObjC: Bool = false
+
+    func run() throws {
+        let appName = (CommandLine.arguments.first! as NSString).lastPathComponent
+        let options = Options(appName: appName, inputPlistFilePath: plistPath, inputHintsFilePath: hintsPath, outputClassName: className, outputClassDirectory: outputDirectory)
+        let fileGenerator = FileGenerator(options: options)
+        if isObjC {
+          let template = ObjectiveCTemplate(options: options)
+          try fileGenerator.generateHeaderFile(withTemplate: template)
+          try fileGenerator.generateImplementationFile(withTemplate: template)
+        } else {
+          let template = SwiftTemplate(options: options)
+          try fileGenerator.generateImplementationFile(withTemplate: template)
+        }
+    }
 }
+
+Configen.main()
