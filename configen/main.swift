@@ -3,7 +3,7 @@
 //  configen
 //
 //  Created by Sam Dods on 29/09/2015.
-//  Copyright © 2015 The App Business. All rights reserved.
+//  Copyright © 2015 Kin + Carta. All rights reserved.
 //
 
 import Foundation

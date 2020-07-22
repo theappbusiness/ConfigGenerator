@@ -3,7 +3,7 @@
 //  configen
 //
 //  Created by Dónal O'Brien on 11/08/2016.
-//  Copyright © 2016 The App Business. All rights reserved.
+//  Copyright © 2016 Kin + Carta. All rights reserved.
 //
 
 import Foundation

@@ -3,7 +3,7 @@
 //  configen
 //
 //  Created by Suyash Srijan on 13/01/2020.
-//  Copyright © 2020 The App Business. All rights reserved.
+//  Copyright © 2020 Kin + Carta. All rights reserved.
 //
 
 import Foundation
