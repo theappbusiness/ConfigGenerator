@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 46;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -12,6 +12,7 @@
 		2E4A8F331D5CB7D60025C677 /* FileGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E4A8F321D5CB7D60025C677 /* FileGenerator.swift */; };
 		7CBA523323CDB84600B7136C /* ArrayUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CBA523223CDB84600B7136C /* ArrayUtils.swift */; };
 		7CBA523623CDBB6300B7136C /* Character+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CBA523523CDBB6300B7136C /* Character+Extensions.swift */; };
+		919CD9A524C8790C004FEE8D /* ArgumentParser in Frameworks */ = {isa = PBXBuildFile; productRef = 919CD9A424C8790C004FEE8D /* ArgumentParser */; };
 		91ED18E61E02A48F00475042 /* CommandLineKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91084DEB1E02A0A9004E353B /* CommandLineKit.swift */; };
 		91ED18E71E02A49200475042 /* Option.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91084DED1E02A0A9004E353B /* Option.swift */; };
 		91ED18E81E02A49500475042 /* StringExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91084DEE1E02A0A9004E353B /* StringExtensions.swift */; };
@@ -49,6 +50,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				919CD9A524C8790C004FEE8D /* ArgumentParser in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -120,6 +122,9 @@
 			dependencies = (
 			);
 			name = configen;
+			packageProductDependencies = (
+				919CD9A424C8790C004FEE8D /* ArgumentParser */,
+			);
 			productName = configen;
 			productReference = EAD7A29E1BBABE83006A3921 /* configen */;
 			productType = "com.apple.product-type.tool";
@@ -149,6 +154,9 @@
 				en,
 			);
 			mainGroup = EAD7A2951BBABE83006A3921;
+			packageReferences = (
+				919CD9A324C8790C004FEE8D /* XCRemoteSwiftPackageReference "swift-argument-parser" */,
+			);
 			productRefGroup = EAD7A29F1BBABE83006A3921 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -283,7 +291,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -294,7 +306,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 			};
@@ -322,6 +338,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		919CD9A324C8790C004FEE8D /* XCRemoteSwiftPackageReference "swift-argument-parser" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apple/swift-argument-parser";
+			requirement = {
+				kind = upToNextMinorVersion;
+				minimumVersion = 0.2.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		919CD9A424C8790C004FEE8D /* ArgumentParser */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 919CD9A324C8790C004FEE8D /* XCRemoteSwiftPackageReference "swift-argument-parser" */;
+			productName = ArgumentParser;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = EAD7A2961BBABE83006A3921 /* Project object */;
 }
