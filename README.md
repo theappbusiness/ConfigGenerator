@@ -1,8 +1,8 @@
-![The App Business](Assets/logo.png)
+![Configen - Kin + Carta Create](Assets/logo.png)
 
 # configen
 
-A command line tool to auto-generate configuration file code, for use in Xcode projects. To read about the motivation behind this project and the scenarios in which it might be used see our [blog post](http://www.theappbusiness.com/blog/a-robust-multi-environment-build-setup). 
+A command line tool to auto-generate configuration file code, for use in Xcode projects. To read about the motivation behind this project and the scenarios in which it might be used see our [blog post](https://www.theappbusiness.com/insights/a-robust-multi-environment-build-setup). 
 
 The `configen` tool is used to auto-generate configuration code from a property list. It is intended to
 create the kind of configuration needed for external URLs or API keys used by your app. Currently supports both Swift and Objective-C code generation.
