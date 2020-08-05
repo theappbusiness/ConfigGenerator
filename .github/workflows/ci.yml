@@ -1,0 +1,21 @@
+# This is a basic workflow to help you get started with Actions
+
+name: Configen CI
+
+# Controls when the action will run. Triggers the workflow on push or pull request
+# events but only for the master branch
+on:
+  push:
+    branches: [ 'chore/github-actions' ]
+  pull_request:
+    branches: [ '*' ] # all branches
+
+jobs:
+  build:
+    runs-on: macOS-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v1
+    - name: Building configen for the latest version of mac and Xcode
+      run: xcodebuild  build -scheme configen -configuration Debug
