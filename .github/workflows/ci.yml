@@ -1,12 +1,8 @@
-# This is a basic workflow to help you get started with Actions
-
 name: Configen CI
 
-# Controls when the action will run. Triggers the workflow on push or pull request
-# events but only for the master branch
 on:
   pull_request:
-    branches: [ '*' ] # all branches
+    branches: [ '*' ] # trigger the CI on all PR request.
 
 jobs:
   build:
