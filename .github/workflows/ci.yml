@@ -1,0 +1,15 @@
+name: Configen CI
+
+on:
+  pull_request:
+    branches: [ '*' ] # trigger the CI on all PR request.
+
+jobs:
+  build:
+    runs-on: macOS-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v1
+    - name: Building configen for the latest version of macOS and Xcode
+      run: xcodebuild  build -scheme configen -configuration Debug
