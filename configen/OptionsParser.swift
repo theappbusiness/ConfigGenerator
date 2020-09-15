@@ -45,16 +45,8 @@ final class OptionsParser {
 
   lazy var plistDictionary: [String: AnyObject] = { [unowned self] in
     let inputPlistFilePathURL = URL(fileURLWithPath: self.inputPlistFilePath)
-    guard let data = try? Data(contentsOf: inputPlistFilePathURL) else {
-      fatalError("No data at path: \(self.inputPlistFilePath)")
-    }
-
-    guard let plistDictionary = (try? PropertyListSerialization.propertyList(from: data, options: [], format: nil)) as? [String: AnyObject] else {
-      fatalError("Failed to create plist")
-    }
-
-    return plistDictionary
-    }()
+    return loadPlist(url: inputPlistFilePathURL)
+  }()
   
   lazy var sortedHints: [Hint] = { [unowned self] in
     guard let hintsString = try? String(contentsOfFile: self.inputHintsFilePath, encoding: String.Encoding.utf8) else {
@@ -71,5 +63,24 @@ final class OptionsParser {
       hints.append(Hint(variableName: separatedHints[0], type: separatedHints[1]))
     }
     return hints.sorted(by: <)
-    }()
+  }()
+  
+  private func loadPlist(url: URL) -> [String: AnyObject] {
+    guard let data = try? Data(contentsOf: url) else {
+      fatalError("No data at path: \(url.absoluteString)")
+    }
+    
+    guard var plistDictionary = (try? PropertyListSerialization.propertyList(from: data, options: [], format: nil)) as? [String: AnyObject] else {
+      fatalError("Failed to load plist from: \(url.absoluteString)")
+    }
+    let inheritKey = ":inherit_from"
+    if let inheritPath = plistDictionary.removeValue(forKey: inheritKey) {
+      guard let inheritPath = inheritPath as? String, !inheritPath.isEmpty else {
+        fatalError("Expected \"\(inheritKey)\" in \(url.absoluteString) to be a string path")
+      }
+      let inheritedPlist = loadPlist(url: URL(fileURLWithPath: inheritPath, relativeTo: url))
+      plistDictionary = inheritedPlist.merging(plistDictionary, uniquingKeysWith: { (_, override) in override })
+    }
+    return plistDictionary
+  }
 }
